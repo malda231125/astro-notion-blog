@@ -57,6 +57,23 @@ All commands are run from the root of the project, from a terminal:
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
+## Notion 마크다운 업로드 워크플로우
+
+1) 노션에서 Markdown으로 내보낸 파일을 `notion-drop/` 폴더에 넣습니다.
+
+2) 동기화 스크립트를 실행합니다.
+
+```sh
+npm run sync:notion
+```
+
+3) 생성된 글은 `src/content/blog/notion/` 아래에 저장되고, Astro blog 라우팅에 의해 자동으로 URL이 생깁니다.
+- 예: `src/content/blog/notion/my-post.md` → `/blog/notion/my-post/`
+
+참고:
+- frontmatter가 없는 노션 markdown은 스크립트가 title/description/pubDate를 자동 생성합니다.
+- 이미 frontmatter가 있으면 내용을 유지한 채 동기화합니다.
+
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
