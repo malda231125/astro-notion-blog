@@ -74,6 +74,27 @@ npm run sync:notion
 - frontmatter가 없는 노션 markdown은 스크립트가 title/description/pubDate를 자동 생성합니다.
 - 이미 frontmatter가 있으면 내용을 유지한 채 동기화합니다.
 
+## Notion API 자동 동기화
+
+사전 준비:
+- GitHub Secrets
+  - `NOTION_API_KEY`
+  - `NOTION_DATABASE_ID`
+
+로컬 DB 생성(최초 1회):
+```sh
+NOTION_API_KEY=ntn_xxx npm run setup:notion:db
+```
+
+API 동기화 실행:
+```sh
+NOTION_API_KEY=ntn_xxx NOTION_DATABASE_ID=xxxx npm run sync:notion:api
+```
+
+자동 동기화:
+- `.github/workflows/notion-sync.yml`
+- 30분마다 Notion DB를 읽어 `src/content/blog/notion-api/`를 갱신하고 커밋/푸시합니다.
+
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
