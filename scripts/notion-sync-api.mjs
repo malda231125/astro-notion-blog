@@ -82,11 +82,23 @@ async function convertPageToMarkdown(pageId) {
   return n2m.toMarkdownString(mdblocks).parent;
 }
 
+async function clearOutputDir() {
+  const files = await fs.readdir(outputDir);
+  for (const file of files) {
+    if (file.endsWith('.md') || file.endsWith('.mdx')) {
+      await fs.unlink(path.join(outputDir, file));
+    }
+  }
+}
+
 async function main() {
   const pages = await fetchPages();
 
+  // Always clear old generated files first so unchecked Published posts disappear.
+  await clearOutputDir();
+
   if (pages.length === 0) {
-    console.log('No published pages found in Notion database.');
+    console.log('No published pages found in Notion database. Cleared existing generated posts.');
     return;
   }
 

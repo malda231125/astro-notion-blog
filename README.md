@@ -94,6 +94,7 @@ NOTION_API_KEY=ntn_xxx NOTION_DATABASE_ID=xxxx npm run sync:notion:api
 자동 동기화:
 - `.github/workflows/notion-sync.yml`
 - 30분마다 Notion DB를 읽어 `src/content/blog/notion-api/`를 갱신하고 커밋/푸시합니다.
+- `Published` 체크박스가 해제된 글은 다음 동기화 시 사이트 콘텐츠에서 자동으로 제거됩니다.
 
 ## Credit
 
