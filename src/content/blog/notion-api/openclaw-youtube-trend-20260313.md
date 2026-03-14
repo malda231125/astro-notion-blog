@@ -1,10 +1,10 @@
 ---
 title: "2026-03-13(금) OpenClaw 유튜브 트렌드 분석"
-description: "2026-03-13(금) OpenClaw 유튜브 최신 트렌드 분석 내용입니다."
+description: "2026년 3월 13일 기준 OpenClaw(오픈클로) 유튜브 동향과 핵심 이슈를 빠르게 훑어보는 트렌드 분석입니다."
 pubDate: 2026-03-13T00:00:00.000Z
 updatedDate: 2026-03-13T13:01:00.000Z
 slug: "openclaw-youtube-trend-20260313"
-tags: []
+tags: ["OpenClaw", "유튜브 트렌드"]
 ---
 > 총 32개 영상 / 자막 추출 성공 21개 / 자막 없음 11개
 

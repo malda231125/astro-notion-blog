@@ -3,11 +3,14 @@ import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 import TagList from '../../components/TagList.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { getPostUrl, getTagSlug, tagMatchesSlug } from '../../utils/blog';
+import { SITE_URL } from '../../consts';
+import { getPostUrl, getTagSlug, isUsableTag, tagMatchesSlug } from '../../utils/blog';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))];
+	const tags = [
+		...new Set(posts.flatMap((post) => (post.data.tags ?? []).filter((tag) => isUsableTag(tag)))),
+	];
 	return tags.map((tag) => ({
 		params: { tag: getTagSlug(tag) },
 		props: {
@@ -19,15 +22,35 @@ export async function getStaticPaths() {
 
 const { tag, posts } = Astro.props;
 const safeTag = typeof Astro.params.tag === 'string' ? Astro.params.tag : '';
-const filteredPosts = posts?.filter((post) =>
-	(post.data.tags ?? []).some((item) => tagMatchesSlug(item, safeTag)),
-) ?? [];
+const filteredPosts =
+	posts?.filter((post) => (post.data.tags ?? []).some((item) => tagMatchesSlug(item, safeTag))) ?? [];
+const structuredData = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: `태그: ${tag}`,
+		description: `${tag} 태그로 분류된 글 모음입니다.`,
+		url: `${SITE_URL}/tags/${safeTag}/`,
+		inLanguage: 'ko-KR',
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'ItemList',
+		itemListElement: filteredPosts.map((post, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			url: `${SITE_URL}${getPostUrl(post)}`,
+			name: post.data.title,
+		})),
+	},
+];
 ---
 
 <PageLayout
 	title={`태그: ${tag}`}
 	description={`${tag} 태그로 분류된 글 모음입니다.`}
 	keywords={[tag, '태그', 'OpenClaw']}
+	structuredData={structuredData}
 >
 	<section class="tag-page">
 		<p class="eyebrow">TAG ARCHIVE</p>

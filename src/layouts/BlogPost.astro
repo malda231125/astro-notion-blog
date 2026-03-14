@@ -14,10 +14,29 @@ import {
 	SITE_TITLE,
 	SITE_URL,
 } from '../consts';
+import { getPostUrl } from '../utils/blog';
 
-type Props = CollectionEntry<'blog'>['data'];
+type BlogEntry = CollectionEntry<'blog'>;
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+interface Props extends BlogEntry['data'] {
+	post: BlogEntry;
+	previousPost?: BlogEntry | null;
+	nextPost?: BlogEntry | null;
+	relatedPosts?: BlogEntry[];
+}
+
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	tags = [],
+	post,
+	previousPost = null,
+	nextPost = null,
+	relatedPosts = [],
+} = Astro.props;
 const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const imageUrl = heroImage ? new URL(heroImage.src, Astro.site).toString() : undefined;
 
@@ -105,6 +124,20 @@ const breadcrumbJsonLd = {
 				padding: 0.75rem 0.8rem;
 				color: rgb(var(--gray-dark));
 			}
+			.breadcrumbs {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.45rem;
+				margin-bottom: 1rem;
+				font-size: 0.92rem;
+				color: rgb(var(--gray));
+			}
+			.breadcrumbs a {
+				color: rgb(var(--gray-dark));
+				text-decoration: none;
+				font-weight: 600;
+			}
 			.title {
 				margin-bottom: 1.2rem;
 				padding: 0.8rem 0 0.4rem;
@@ -136,6 +169,67 @@ const breadcrumbJsonLd = {
 			.last-updated-on {
 				font-style: italic;
 			}
+			.article-footer {
+				margin-top: 3rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+				display: grid;
+				gap: 1.5rem;
+			}
+			.section-title {
+				margin-bottom: 0.75rem;
+				font-size: 1.1rem;
+			}
+			.post-nav {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.post-nav a,
+			.related-list a {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+			}
+			.post-nav-card,
+			.related-card {
+				padding: 1rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.9);
+			}
+			.post-nav-label {
+				display: block;
+				font-size: 0.85rem;
+				font-weight: 800;
+				letter-spacing: 0.04em;
+				color: rgb(var(--gray));
+				margin-bottom: 0.35rem;
+			}
+			.related-list {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.related-card h3,
+			.post-nav-card h3 {
+				margin: 0.25rem 0 0.35rem;
+				font-size: 1.05rem;
+			}
+			.related-card p,
+			.post-nav-card p {
+				margin: 0;
+			}
+			.related-meta {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				margin-bottom: 0.4rem;
+			}
+			@media (max-width: 900px) {
+				.related-list {
+					grid-template-columns: 1fr;
+				}
+			}
 			@media (max-width: 720px) {
 				main {
 					width: 100%;
@@ -155,6 +249,9 @@ const breadcrumbJsonLd = {
 				.title h1 {
 					font-size: 2rem;
 				}
+				.post-nav {
+					grid-template-columns: 1fr;
+				}
 			}
 		</style>
 	</head>
@@ -167,6 +264,13 @@ const breadcrumbJsonLd = {
 					{heroImage && <Image width={1200} height={630} src={heroImage} alt={title} />}
 				</div>
 				<div class="prose">
+					<nav class="breadcrumbs" aria-label="breadcrumb">
+						<a href="/">홈</a>
+						<span>/</span>
+						<a href="/blog/">블로그</a>
+						<span>/</span>
+						<span aria-current="page">{title}</span>
+					</nav>
 					<header class="title">
 						<div class="meta">
 							<div class="date">
@@ -186,6 +290,54 @@ const breadcrumbJsonLd = {
 						<hr />
 					</header>
 					<slot />
+
+					<footer class="article-footer">
+						{(previousPost || nextPost) && (
+							<section aria-labelledby="post-navigation-title">
+								<h2 id="post-navigation-title" class="section-title">이전·다음 글</h2>
+								<div class="post-nav">
+									{previousPost ? (
+										<a href={getPostUrl(previousPost)}>
+											<div class="post-nav-card">
+												<span class="post-nav-label">더 최신 글</span>
+												<h3>{previousPost.data.title}</h3>
+												<p>{previousPost.data.description}</p>
+											</div>
+										</a>
+									) : <div />}
+									{nextPost ? (
+										<a href={getPostUrl(nextPost)}>
+											<div class="post-nav-card">
+												<span class="post-nav-label">더 이전 글</span>
+												<h3>{nextPost.data.title}</h3>
+												<p>{nextPost.data.description}</p>
+											</div>
+										</a>
+									) : <div />}
+								</div>
+							</section>
+						)}
+
+						{relatedPosts.length > 0 && (
+							<section aria-labelledby="related-posts-title">
+								<h2 id="related-posts-title" class="section-title">관련 글</h2>
+								<div class="related-list">
+									{relatedPosts.map((relatedPost) => (
+										<a href={getPostUrl(relatedPost)}>
+											<div class="related-card">
+												<p class="related-meta"><FormattedDate date={relatedPost.data.pubDate} /></p>
+												<h3>{relatedPost.data.title}</h3>
+												<p>{relatedPost.data.description}</p>
+												<div style="margin-top: 0.7rem;">
+													<TagList tags={relatedPost.data.tags} />
+												</div>
+											</div>
+										</a>
+									))}
+								</div>
+							</section>
+						)}
+					</footer>
 				</div>
 			</article>
 		</main>

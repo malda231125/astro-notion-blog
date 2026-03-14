@@ -21,7 +21,7 @@ const toSlug = (text) =>
 	text
 		.toLowerCase()
 		.trim()
-		.replace(/[^\w\s-가-힣]/g, '')
+		.replace(/[^\p{L}\p{N}\s-]/gu, '')
 		.replace(/\s+/g, '-')
 		.replace(/-+/g, '-');
 
@@ -47,6 +47,60 @@ const sanitizeMarkdownLinks = (content) =>
 	content
 		.replace(/\(about:blank#/g, '(#')
 		.replace(/\]\(about:blank#/g, '](#');
+
+const normalizeBrandText = (text) => {
+	if (!text) return text;
+	let normalized = text;
+	if (/OpenClaw/i.test(normalized) && !/오픈클로/.test(normalized)) {
+		normalized = normalized.replace(/OpenClaw/gi, 'OpenClaw(오픈클로)');
+	}
+	if (/오픈클로/.test(normalized) && !/OpenClaw/i.test(normalized)) {
+		normalized = normalized.replace(/오픈클로/g, 'OpenClaw(오픈클로)');
+	}
+	return normalized;
+};
+
+const formatKoreanDate = (value) => {
+	const date = new Date(value);
+	if (Number.isNaN(date.getTime())) return '';
+	return `${date.getUTCFullYear()}년 ${date.getUTCMonth() + 1}월 ${date.getUTCDate()}일`;
+};
+
+const uniqueTags = (tags) => [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))];
+
+const deriveTags = ({ title, description }) => {
+	const source = `${title}\n${description}`;
+	const tags = [];
+
+	if (/(?:openclaw|오픈클로)/i.test(source)) tags.push('OpenClaw');
+	if (/유튜브/.test(source) && /트렌드/.test(source)) tags.push('유튜브 트렌드');
+	if (/(?:docker|도커)/i.test(source)) tags.push('Docker');
+	if (/설치/.test(source) || /가이드/.test(source)) tags.push('설치 가이드');
+	if (/홈서버/.test(source)) tags.push('홈서버');
+	if (/에이전트/.test(source)) tags.push('AI 에이전트');
+	if (/자동화/.test(source)) tags.push('자동화');
+
+	return uniqueTags(tags);
+};
+
+const buildSeoDescription = ({ title, description, pubDate, tags }) => {
+	const normalizedDescription = normalizeBrandText(description);
+	const pubDateText = formatKoreanDate(pubDate);
+
+	if (tags.includes('유튜브 트렌드')) {
+		return `${pubDateText} 기준 OpenClaw(오픈클로) 유튜브 동향과 핵심 이슈를 빠르게 훑어보는 트렌드 분석입니다.`;
+	}
+
+	if (tags.includes('Docker') || tags.includes('설치 가이드')) {
+		return 'Docker 환경에서 OpenClaw(오픈클로)를 설치하고 실행하는 과정을 실무 기준으로 정리한 가이드입니다.';
+	}
+
+	if (normalizedDescription && normalizedDescription.length >= 35) {
+		return normalizedDescription;
+	}
+
+	return `${normalizeBrandText(title)}에 관한 핵심 내용과 실무 관점을 정리한 글입니다.`;
+};
 
 function getTitle(properties) {
 	const prop = properties?.Title;
@@ -78,7 +132,7 @@ function getPublishDate(properties, fallback) {
 function getTags(properties) {
 	const prop = properties?.Tags;
 	if (prop?.type !== 'multi_select') return [];
-	return [...new Set(prop.multi_select.map((tag) => tag.name).filter(Boolean))];
+	return uniqueTags(prop.multi_select.map((tag) => tag.name));
 }
 
 function isPublished(properties) {
@@ -130,13 +184,18 @@ async function main() {
 
 	for (const page of pages) {
 		const title = getTitle(page.properties);
-		const description = getDescription(page.properties);
+		const rawDescription = getDescription(page.properties);
 		const slug = getSlug(page.properties, title, page.id.replace(/-/g, '').slice(0, 8));
 		const pubDate = getPublishDate(page.properties, page.created_time);
 		const updatedDate = page.last_edited_time;
-		const tags = getTags(page.properties);
-
 		const markdownBody = sanitizeMarkdownLinks(stripFirstH1(await convertPageToMarkdown(page.id)));
+		const tags = uniqueTags([...getTags(page.properties), ...deriveTags({ title, description: rawDescription })]);
+		const description = buildSeoDescription({
+			title,
+			description: rawDescription,
+			pubDate,
+			tags,
+		});
 
 		const fm = [
 			'---',
@@ -145,7 +204,9 @@ async function main() {
 			`pubDate: ${pubDate}`,
 			`updatedDate: ${updatedDate}`,
 			`slug: "${slug}"`,
-			tags.length > 0 ? `tags: [${tags.map((tag) => `"${escapeFrontmatterString(tag)}"`).join(', ')}]` : 'tags: []',
+			tags.length > 0
+				? `tags: [${tags.map((tag) => `"${escapeFrontmatterString(tag)}"`).join(', ')}]`
+				: 'tags: []',
 			'---',
 			'',
 		].join('\n');

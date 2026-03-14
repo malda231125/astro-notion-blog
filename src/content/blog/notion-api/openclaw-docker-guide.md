@@ -1,10 +1,10 @@
 ---
 title: "도커 기반의 오픈클로 설치 가이드"
-description: "도커 기반으로 오픈클로 구동하기"
+description: "Docker 환경에서 OpenClaw(오픈클로)를 설치하고 실행하는 과정을 실무 기준으로 정리한 가이드입니다."
 pubDate: 2026-02-27T00:00:00.000Z
 updatedDate: 2026-02-27T10:39:00.000Z
 slug: "openclaw-docker-guide"
-tags: []
+tags: ["OpenClaw", "Docker", "설치 가이드"]
 ---
 > **환경:** Ubuntu 홈서버 + Docker Desktop (맥에서 RDP 원격 접속으로 셋팅)
 >

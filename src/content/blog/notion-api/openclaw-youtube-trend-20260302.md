@@ -1,10 +1,10 @@
 ---
 title: "2026-03-02(월) OpenClaw 유튜브 트렌드 분석"
-description: "2026-03-02(월) OpenClaw 유튜브 최신 트렌드 분석 내용입니다."
+description: "2026년 3월 2일 기준 OpenClaw(오픈클로) 유튜브 동향과 핵심 이슈를 빠르게 훑어보는 트렌드 분석입니다."
 pubDate: 2026-03-02T00:00:00.000Z
 updatedDate: 2026-03-03T04:22:00.000Z
 slug: "openclaw-youtube-trend-20260302"
-tags: []
+tags: ["OpenClaw", "유튜브 트렌드"]
 ---
 > 수집일: 2026-03-02 | 총 영상 수: 12개 | 분석 모델: Claude
 

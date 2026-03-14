@@ -1,10 +1,10 @@
 ---
 title: "2026-02-27(금) OpenClaw 유튜브 트렌드"
-description: "2026년 2월 27일 오픈클로 유튜브 트렌드 분석 내용"
+description: "2026년 2월 27일 기준 OpenClaw(오픈클로) 유튜브 동향과 핵심 이슈를 빠르게 훑어보는 트렌드 분석입니다."
 pubDate: 2026-02-27T00:00:00.000Z
 updatedDate: 2026-02-27T14:22:00.000Z
 slug: "openclaw-youtube-trend-20260227"
-tags: []
+tags: ["OpenClaw", "유튜브 트렌드"]
 ---
 > 분석 일자: 2026-02-27  
 > 총 영상 수: 37개  

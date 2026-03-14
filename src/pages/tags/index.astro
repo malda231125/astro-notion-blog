@@ -1,16 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL } from '../../consts';
 import { getAllTags, getTagUrl } from '../../utils/blog';
 
 const posts = await getCollection('blog');
 const tags = getAllTags(posts);
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'CollectionPage',
+	name: '태그 모음',
+	description: '블로그 글을 태그별로 탐색할 수 있는 허브 페이지입니다.',
+	url: `${SITE_URL}/tags/`,
+	inLanguage: 'ko-KR',
+};
 ---
 
 <PageLayout
 	title="태그 모음"
 	description="블로그 글을 태그별로 탐색할 수 있는 허브 페이지입니다."
 	keywords={['태그', 'OpenClaw', 'AI 에이전트']}
+	structuredData={structuredData}
 >
 	<section class="tags-page">
 		<p class="eyebrow">TOPIC HUB</p>
