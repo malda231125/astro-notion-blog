@@ -3,10 +3,9 @@ title: "2026-03-02(월) OpenClaw 유튜브 트렌드 분석"
 description: "2026-03-02(월) OpenClaw 유튜브 최신 트렌드 분석 내용입니다."
 pubDate: 2026-03-02T00:00:00.000Z
 updatedDate: 2026-03-03T04:22:00.000Z
+slug: "openclaw-youtube-trend-20260302"
+tags: []
 ---
-
-# **OpenClaw 유튜브 트렌드 분석 리포트**
-
 > 수집일: 2026-03-02 | 총 영상 수: 12개 | 분석 모델: Claude
 
 ---
@@ -356,5 +355,4 @@ ZeroClaw의 핵심 장점은 극단적인 경량화로, $10짜리 하드웨어(B
 
 
 ---
-
 

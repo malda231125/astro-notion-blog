@@ -3,10 +3,9 @@ title: "2026-03-01 OpenClaw 유튜브 트렌드 분석 리포트"
 description: "2026년 3월 1일 오픈클로 유튜브 트렌드 분석 내용"
 pubDate: 2026-03-01T00:00:00.000Z
 updatedDate: 2026-03-01T13:26:00.000Z
+slug: "openclaw-youtube-trend-20260301"
+tags: []
 ---
-
-# OpenClaw 유튜브 트렌드 분석 리포트
-
 > 분석일: 2026-03-01 | 총 영상 수: 34개 (중복 1건 포함) | 데이터 소스: YouTube API + 자막 추출
 
 ---
@@ -14,8 +13,8 @@ updatedDate: 2026-03-01T13:26:00.000Z
 
 ## 목차
 
-1. [주요 트렌드 요약](about:blank#%EC%A3%BC%EC%9A%94-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%9A%94%EC%95%BD)
-2. [영상별 상세 분석](about:blank#%EC%98%81%EC%83%81%EB%B3%84-%EC%83%81%EC%84%B8-%EB%B6%84%EC%84%9D)
+1. [주요 트렌드 요약](#%EC%A3%BC%EC%9A%94-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%9A%94%EC%95%BD)
+2. [영상별 상세 분석](#%EC%98%81%EC%83%81%EB%B3%84-%EC%83%81%EC%84%B8-%EB%B6%84%EC%84%9D)
 
 ---
 
@@ -720,5 +719,4 @@ OpenClaw로 수익을 창출하는 단계별 가이드를 제공한다. OpenClaw
 
 
 ---
-
 

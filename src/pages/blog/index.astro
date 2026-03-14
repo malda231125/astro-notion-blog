@@ -1,114 +1,125 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-// import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import TagList from '../../components/TagList.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_SECTION_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getPostUrl } from '../../utils/blog';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		{/* <Header /> */}
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<PageLayout
+	title="블로그 아카이브"
+	description="OpenClaw와 AI 에이전트 운영, 자동화, 배포, 홈서버 관련 글 전체 목록입니다."
+	keywords={['블로그', 'OpenClaw', 'AI 에이전트', '자동화']}
+>
+	<section class="archive-hero">
+		<p class="eyebrow">BLOG ARCHIVE</p>
+		<h1>{SITE_TITLE} 글 모음</h1>
+		<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
+	</section>
+
+	<section class="archive-list" aria-labelledby="archive-list-title">
+		<div class="section-heading">
+			<h2 id="archive-list-title">전체 글</h2>
+			<p>{posts.length}개의 글이 발행되어 있습니다.</p>
+		</div>
+
+		<div class="grid">
+			{posts.map((post) => (
+				<article class="card">
+					<a href={getPostUrl(post)}>
+						{post.data.heroImage && (
+							<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+						)}
+						<p class="meta">
+							<FormattedDate date={post.data.pubDate} />
+						</p>
+						<h3>{post.data.title}</h3>
+						<p>{post.data.description}</p>
+					</a>
+					<TagList tags={post.data.tags} />
+				</article>
+			))}
+		</div>
+	</section>
+</PageLayout>
+
+<style>
+	.archive-hero {
+		display: grid;
+		gap: 1rem;
+		padding: 1rem 0 1.5rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		color: rgb(var(--gray));
+	}
+
+	.lead,
+	.section-heading p {
+		margin: 0;
+		color: rgb(var(--gray));
+	}
+
+	.archive-list {
+		margin-top: 1rem;
+	}
+
+	.section-heading {
+		margin-bottom: 1rem;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.card {
+		display: grid;
+		gap: 0.8rem;
+		padding: 1rem;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 18px;
+		background: rgba(255, 255, 255, 0.9);
+	}
+
+	.card a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.card img {
+		width: 100%;
+		height: auto;
+		border-radius: 14px;
+	}
+
+	.card h3 {
+		margin: 0.2rem 0 0.4rem;
+	}
+
+	.card p {
+		margin: 0;
+	}
+
+	.meta {
+		font-size: 0.92rem;
+		color: rgb(var(--gray));
+	}
+
+	@media (max-width: 900px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

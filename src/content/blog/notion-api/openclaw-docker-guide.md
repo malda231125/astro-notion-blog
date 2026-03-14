@@ -3,10 +3,9 @@ title: "도커 기반의 오픈클로 설치 가이드"
 description: "도커 기반으로 오픈클로 구동하기"
 pubDate: 2026-02-27T00:00:00.000Z
 updatedDate: 2026-02-27T10:39:00.000Z
+slug: "openclaw-docker-guide"
+tags: []
 ---
-
-# OpenClaw Docker 설치 가이드 (docker run 명령어 기반)
-
 > **환경:** Ubuntu 홈서버 + Docker Desktop (맥에서 RDP 원격 접속으로 셋팅)
 >
 > **방식:** 순수 docker 명령어만 사용 (Dockerfile, docker-compose 없음)

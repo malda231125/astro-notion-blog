@@ -4,38 +4,83 @@ import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-// import Header from '../components/Header.astro';
-import { SITE_TITLE, SITE_URL } from '../consts';
+import Header from '../components/Header.astro';
+import TagList from '../components/TagList.astro';
+import {
+	SITE_AUTHOR_NAME,
+	SITE_BRAND_NAME,
+	SITE_LANG,
+	SITE_LOCALE,
+	SITE_TITLE,
+	SITE_URL,
+} from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
 const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const imageUrl = heroImage ? new URL(heroImage.src, Astro.site).toString() : undefined;
+
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'BlogPosting',
 	headline: title,
 	description,
-	datePublished: pubDate,
-	dateModified: updatedDate ?? pubDate,
+	url: postUrl,
+	datePublished: new Date(pubDate).toISOString(),
+	dateModified: new Date(updatedDate ?? pubDate).toISOString(),
 	mainEntityOfPage: postUrl,
-	image: imageUrl,
+	inLanguage: SITE_LOCALE.replace('_', '-'),
+	image: imageUrl ? [imageUrl] : undefined,
+	keywords: tags,
+	articleSection: tags[0] ?? '블로그',
+	author: {
+		'@type': 'Organization',
+		name: SITE_AUTHOR_NAME,
+		url: SITE_URL,
+	},
 	publisher: {
 		'@type': 'Organization',
-		name: SITE_TITLE,
+		name: SITE_BRAND_NAME,
 		url: SITE_URL,
 	},
 };
+
+const breadcrumbJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: [
+		{
+			'@type': 'ListItem',
+			position: 1,
+			name: SITE_TITLE,
+			item: SITE_URL,
+		},
+		{
+			'@type': 'ListItem',
+			position: 2,
+			name: '블로그',
+			item: `${SITE_URL}/blog/`,
+		},
+		{
+			'@type': 'ListItem',
+			position: 3,
+			name: title,
+			item: postUrl,
+		},
+	],
+};
 ---
 
-<html lang="en">
+<html lang={SITE_LANG}>
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} keywords={tags} />
 		<meta property="og:type" content="article" />
 		<meta property="article:published_time" content={new Date(pubDate).toISOString()} />
 		<meta property="article:modified_time" content={new Date(updatedDate ?? pubDate).toISOString()} />
+		{tags.map((tag) => <meta property="article:tag" content={tag} />)}
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 		<style>
 			main {
 				width: 100%;
@@ -61,19 +106,30 @@ const jsonLd = {
 				color: rgb(var(--gray-dark));
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 0.7em 0;
+				margin-bottom: 1.2rem;
+				padding: 0.8rem 0 0.4rem;
 				text-align: center;
 				line-height: 1.2;
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0 0 0.7rem 0;
 				font-size: clamp(1.9rem, 5.5vw, 3rem);
 				line-height: 1.2;
 				word-break: keep-all;
 			}
+			.title .description {
+				max-width: 680px;
+				margin: 0.5rem auto 0;
+				color: rgb(var(--gray));
+			}
+			.meta {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+				align-items: center;
+				margin-bottom: 0.85rem;
+			}
 			.date {
-				margin-bottom: 0.5em;
 				color: rgb(var(--gray));
 				font-size: 0.95rem;
 			}
@@ -94,7 +150,7 @@ const jsonLd = {
 					padding: 0.65rem 0.75rem;
 				}
 				.title {
-					padding: 0.35rem 0;
+					padding: 0.35rem 0 0;
 				}
 				.title h1 {
 					font-size: 2rem;
@@ -104,27 +160,31 @@ const jsonLd = {
 	</head>
 
 	<body>
-		{/* <Header /> */}
+		<Header />
 		<main>
 			<article>
 				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+					{heroImage && <Image width={1200} height={630} src={heroImage} alt={title} />}
 				</div>
 				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+					<header class="title">
+						<div class="meta">
+							<div class="date">
+								<FormattedDate date={pubDate} />
+								{
+									updatedDate && (
+										<div class="last-updated-on">
+											최종 수정 <FormattedDate date={updatedDate} />
+										</div>
+									)
+								}
+							</div>
+							<TagList tags={tags} />
 						</div>
 						<h1>{title}</h1>
+						<p class="description">{description}</p>
 						<hr />
-					</div>
+					</header>
 					<slot />
 				</div>
 			</article>

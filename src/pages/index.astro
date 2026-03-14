@@ -1,114 +1,217 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-// import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import TagList from '../components/TagList.astro';
+import { SITE_DESCRIPTION, SITE_SECTION_DESCRIPTION, SITE_TITLE } from '../consts';
+import PageLayout from '../layouts/PageLayout.astro';
+import { getAllTags, getPostUrl } from '../utils/blog';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const featuredPosts = posts.slice(0, 3);
+const latestPosts = posts.slice(3, 9);
+const tags = getAllTags(posts).slice(0, 8);
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	url: 'https://openclaw.pe.kr/',
+	inLanguage: 'ko-KR',
+};
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		{/* <Header /> */}
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<PageLayout
+	title={SITE_TITLE}
+	description={SITE_DESCRIPTION}
+	keywords={['OpenClaw', 'AI 에이전트', '자동화', '홈서버', 'SEO']}
+	structuredData={structuredData}
+>
+	<section class="hero">
+		<p class="eyebrow">OPENCLAW · AI AGENTS · AUTOMATION</p>
+		<h1>OpenClaw와 AI 에이전트 운영 인사이트를 축적하는 블로그</h1>
+		<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
+		<div class="hero-links">
+			<a class="primary" href="/blog">전체 글 보기</a>
+			<a class="secondary" href="/about">블로그 소개</a>
+		</div>
+	</section>
+
+	{tags.length > 0 && (
+		<section class="topic-strip" aria-labelledby="topic-strip-title">
+			<div class="section-heading">
+				<h2 id="topic-strip-title">주요 토픽</h2>
+				<p>콘텐츠가 쌓일수록 태그 허브와 시리즈 구조를 함께 정리합니다.</p>
+			</div>
+			<TagList tags={tags} />
+		</section>
+	)}
+
+	<section class="featured" aria-labelledby="featured-title">
+		<div class="section-heading">
+			<h2 id="featured-title">대표 글</h2>
+			<p>먼저 읽기 좋은 최근 글과 운영 기록입니다.</p>
+		</div>
+		<div class="featured-grid">
+			{featuredPosts.map((post) => (
+				<article class="card featured-card">
+					<a href={getPostUrl(post)}>
+						{post.data.heroImage && (
+							<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+						)}
+						<p class="meta">
+							<FormattedDate date={post.data.pubDate} />
+						</p>
+						<h3>{post.data.title}</h3>
+						<p>{post.data.description}</p>
+					</a>
+					<TagList tags={post.data.tags} />
+				</article>
+			))}
+		</div>
+	</section>
+
+	{latestPosts.length > 0 && (
+		<section aria-labelledby="latest-title">
+			<div class="section-heading">
+				<h2 id="latest-title">최신 업데이트</h2>
+				<p>릴리즈 분석, 트렌드 정리, 운영 메모를 최신순으로 모았습니다.</p>
+			</div>
+			<div class="list-grid">
+				{latestPosts.map((post) => (
+					<article class="card compact-card">
+						<a href={getPostUrl(post)}>
+							<p class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<h3>{post.data.title}</h3>
+							<p>{post.data.description}</p>
+						</a>
+						<TagList tags={post.data.tags} />
+					</article>
+				))}
+			</div>
+		</section>
+	)}
+</PageLayout>
+
+<style>
+	.hero {
+		display: grid;
+		gap: 1rem;
+		padding: 2rem 0 1.5rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		color: rgb(var(--gray));
+	}
+
+	.hero h1 {
+		max-width: 820px;
+		margin: 0;
+	}
+
+	.lead {
+		max-width: 760px;
+		margin: 0;
+		font-size: 1.08rem;
+		color: rgb(var(--gray-dark));
+	}
+
+	.hero-links {
+		display: flex;
+		gap: 0.8rem;
+		flex-wrap: wrap;
+	}
+
+	.hero-links a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.8rem 1rem;
+		border-radius: 12px;
+		text-decoration: none;
+		font-weight: 700;
+	}
+
+	.hero-links .primary {
+		background: var(--accent);
+		color: #fff;
+	}
+
+	.hero-links .secondary {
+		background: #fff;
+		border: 1px solid rgb(var(--gray-light));
+		color: rgb(var(--gray-dark));
+	}
+
+	.section-heading {
+		margin-bottom: 1rem;
+	}
+
+	.section-heading p {
+		margin: 0;
+		color: rgb(var(--gray));
+	}
+
+	.topic-strip,
+	.featured,
+	section[aria-labelledby='latest-title'] {
+		margin-top: 2rem;
+	}
+
+	.featured-grid,
+	.list-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.card {
+		display: grid;
+		gap: 0.8rem;
+		padding: 1rem;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 18px;
+		background: rgba(255, 255, 255, 0.9);
+	}
+
+	.card a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.card img {
+		width: 100%;
+		height: auto;
+		border-radius: 14px;
+	}
+
+	.card h3 {
+		margin: 0.2rem 0 0.4rem;
+		font-size: 1.2rem;
+	}
+
+	.card p {
+		margin: 0;
+	}
+
+	.meta {
+		font-size: 0.92rem;
+		color: rgb(var(--gray));
+	}
+
+	@media (max-width: 900px) {
+		.featured-grid,
+		.list-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

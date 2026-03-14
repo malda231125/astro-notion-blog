@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+import TagList from '../../components/TagList.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getPostUrl, getTagSlug, tagMatchesSlug } from '../../utils/blog';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))];
+	return tags.map((tag) => ({
+		params: { tag: getTagSlug(tag) },
+		props: {
+			tag,
+			posts: posts.filter((post) => (post.data.tags ?? []).some((item) => item === tag)),
+		},
+	}));
+}
+
+const { tag, posts } = Astro.props;
+const safeTag = typeof Astro.params.tag === 'string' ? Astro.params.tag : '';
+const filteredPosts = posts?.filter((post) =>
+	(post.data.tags ?? []).some((item) => tagMatchesSlug(item, safeTag)),
+) ?? [];
+---
+
+<PageLayout
+	title={`태그: ${tag}`}
+	description={`${tag} 태그로 분류된 글 모음입니다.`}
+	keywords={[tag, '태그', 'OpenClaw']}
+>
+	<section class="tag-page">
+		<p class="eyebrow">TAG ARCHIVE</p>
+		<h1>#{tag}</h1>
+		<p class="lead">이 태그와 관련된 글 {filteredPosts.length}개를 모았습니다.</p>
+
+		<div class="post-list">
+			{filteredPosts.map((post) => (
+				<article class="card">
+					<a href={getPostUrl(post)}>
+						<p class="meta">
+							<FormattedDate date={post.data.pubDate} />
+						</p>
+						<h2>{post.data.title}</h2>
+						<p>{post.data.description}</p>
+					</a>
+					<TagList tags={post.data.tags} />
+				</article>
+			))}
+		</div>
+	</section>
+</PageLayout>
+
+<style>
+	.tag-page {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		color: rgb(var(--gray));
+	}
+
+	.lead {
+		margin: 0 0 1rem;
+		color: rgb(var(--gray));
+	}
+
+	.post-list {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.card {
+		display: grid;
+		gap: 0.8rem;
+		padding: 1rem;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 18px;
+		background: rgba(255, 255, 255, 0.92);
+	}
+
+	.card a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.card h2 {
+		margin: 0.1rem 0 0.35rem;
+		font-size: 1.35rem;
+	}
+
+	.card p {
+		margin: 0;
+	}
+
+	.meta {
+		font-size: 0.92rem;
+		color: rgb(var(--gray));
+	}
+</style>

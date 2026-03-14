@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getAllTags, getTagUrl } from '../../utils/blog';
+
+const posts = await getCollection('blog');
+const tags = getAllTags(posts);
+---
+
+<PageLayout
+	title="태그 모음"
+	description="블로그 글을 태그별로 탐색할 수 있는 허브 페이지입니다."
+	keywords={['태그', 'OpenClaw', 'AI 에이전트']}
+>
+	<section class="tags-page">
+		<p class="eyebrow">TOPIC HUB</p>
+		<h1>태그별 글 모아보기</h1>
+		<p class="lead">주제별로 쌓인 글을 빠르게 탐색할 수 있도록 태그 허브를 구성했습니다.</p>
+
+		<ul class="tag-grid" aria-label="태그 목록">
+			{tags.map((tag) => {
+				const count = posts.filter((post) => (post.data.tags ?? []).includes(tag)).length;
+				return (
+					<li>
+						<a href={getTagUrl(tag)}>
+							<strong>#{tag}</strong>
+							<span>{count}개의 글</span>
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	</section>
+</PageLayout>
+
+<style>
+	.tags-page {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		color: rgb(var(--gray));
+	}
+
+	.lead {
+		margin: 0 0 1rem;
+		color: rgb(var(--gray));
+	}
+
+	.tag-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.tag-grid li {
+		margin: 0;
+	}
+
+	.tag-grid a {
+		display: grid;
+		gap: 0.35rem;
+		padding: 1rem;
+		border-radius: 16px;
+		border: 1px solid rgb(var(--gray-light));
+		background: rgba(255, 255, 255, 0.92);
+		text-decoration: none;
+		color: rgb(var(--gray-dark));
+	}
+
+	.tag-grid strong {
+		font-size: 1.05rem;
+	}
+
+	.tag-grid span {
+		color: rgb(var(--gray));
+		font-size: 0.95rem;
+	}
+
+	@media (max-width: 900px) {
+		.tag-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

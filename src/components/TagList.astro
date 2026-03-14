@@ -1,0 +1,53 @@
+---
+import { getTagUrl } from '../utils/blog';
+
+interface Props {
+	tags?: string[];
+}
+
+const { tags = [] } = Astro.props;
+---
+
+{
+	tags.length > 0 && (
+		<ul class="tag-list" aria-label="태그 목록">
+			{tags.map((tag) => (
+				<li>
+					<a href={getTagUrl(tag)}>#{tag}</a>
+				</li>
+			))}
+		</ul>
+	)
+}
+
+<style>
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.tag-list li {
+		margin: 0;
+	}
+
+	.tag-list a {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.7rem;
+		border-radius: 999px;
+		background: rgba(var(--gray-light), 0.8);
+		color: rgb(var(--gray-dark));
+		text-decoration: none;
+		font-size: 0.92rem;
+		font-weight: 600;
+	}
+
+	.tag-list a:hover {
+		background: rgba(var(--gray-light), 1);
+		color: rgb(var(--black));
+	}
+</style>

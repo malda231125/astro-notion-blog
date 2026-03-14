@@ -1,4 +1,5 @@
+# 검색엔진 공개 전까지 전체 비색인 유지
 User-agent: *
-Allow: /
+Disallow: /
 
-Sitemap: https://astro-notion-blog-ess.pages.dev/sitemap-index.xml
+Sitemap: https://openclaw.pe.kr/sitemap-index.xml

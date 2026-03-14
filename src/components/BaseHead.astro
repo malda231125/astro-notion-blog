@@ -1,23 +1,43 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { SITE_LOCALE, SITE_TITLE, TWITTER_HANDLE } from '../consts';
+import {
+	SITE_INDEXABLE,
+	SITE_KEYWORDS,
+	SITE_LOCALE,
+	SITE_TITLE,
+	SITE_URL,
+	TWITTER_HANDLE,
+} from '../consts';
 
 interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	keywords?: string[];
+	noindex?: boolean;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalBase = Astro.site ?? new URL(SITE_URL);
+const canonicalURL = new URL(Astro.url.pathname, canonicalBase);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	image = FallbackImage,
+	keywords = [],
+	noindex = !SITE_INDEXABLE,
+} = Astro.props;
+
+const documentTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
+const metaKeywords = [...new Set([...SITE_KEYWORDS, ...keywords])];
+const ogImageUrl = new URL(image.src, canonicalBase).toString();
+const robots = noindex
+	? 'noindex,nofollow,noarchive,max-image-preview:large'
+	: 'index,follow,max-image-preview:large';
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -27,36 +47,34 @@ const { title, description, image = FallbackImage } = Astro.props;
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
+	href={new URL('rss.xml', canonicalBase)}
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
 <link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
 <link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
 
-<!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
+<title>{documentTitle}</title>
+<meta name="title" content={documentTitle} />
 <meta name="description" content={description} />
-<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="robots" content={robots} />
+{metaKeywords.length > 0 && <meta name="keywords" content={metaKeywords.join(', ')} />}
 
-<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:locale" content={SITE_LOCALE} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={documentTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:alt" content={documentTitle} />
 
-<!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
+<meta property="twitter:title" content={documentTitle} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
-<meta property="twitter:site" content={TWITTER_HANDLE} />
+<meta property="twitter:image" content={ogImageUrl} />
+<meta property="twitter:image:alt" content={documentTitle} />
+{TWITTER_HANDLE && <meta property="twitter:site" content={TWITTER_HANDLE} />}
