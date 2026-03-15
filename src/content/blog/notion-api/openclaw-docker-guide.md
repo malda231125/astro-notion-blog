@@ -2,7 +2,7 @@
 title: "도커 기반의 오픈클로 설치 가이드"
 description: "Docker 환경에서 OpenClaw(오픈클로)를 설치하고 실행하는 과정을 실무 기준으로 정리한 가이드입니다."
 pubDate: 2026-02-27T00:00:00.000Z
-updatedDate: 2026-02-27T10:39:00.000Z
+updatedDate: 2026-03-15T00:38:00.000Z
 slug: "openclaw-docker-guide"
 tags: ["OpenClaw", "Docker", "설치 가이드"]
 ---

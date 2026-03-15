@@ -68,21 +68,6 @@ const formatKoreanDate = (value) => {
 
 const uniqueTags = (tags) => [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))];
 
-const deriveTags = ({ title, description }) => {
-	const source = `${title}\n${description}`;
-	const tags = [];
-
-	if (/(?:openclaw|오픈클로)/i.test(source)) tags.push('OpenClaw');
-	if (/유튜브/.test(source) && /트렌드/.test(source)) tags.push('유튜브 트렌드');
-	if (/(?:docker|도커)/i.test(source)) tags.push('Docker');
-	if (/설치/.test(source) || /가이드/.test(source)) tags.push('설치 가이드');
-	if (/홈서버/.test(source)) tags.push('홈서버');
-	if (/에이전트/.test(source)) tags.push('AI 에이전트');
-	if (/자동화/.test(source)) tags.push('자동화');
-
-	return uniqueTags(tags);
-};
-
 const buildSeoDescription = ({ title, description, pubDate, tags }) => {
 	const normalizedDescription = normalizeBrandText(description);
 	const pubDateText = formatKoreanDate(pubDate);
@@ -189,7 +174,10 @@ async function main() {
 		const pubDate = getPublishDate(page.properties, page.created_time);
 		const updatedDate = page.last_edited_time;
 		const markdownBody = sanitizeMarkdownLinks(stripFirstH1(await convertPageToMarkdown(page.id)));
-		const tags = uniqueTags([...getTags(page.properties), ...deriveTags({ title, description: rawDescription })]);
+		const tags = getTags(page.properties);
+		if (tags.length === 0) {
+			console.warn(`Published post has no Tags in Notion DB: ${title}`);
+		}
 		const description = buildSeoDescription({
 			title,
 			description: rawDescription,

@@ -2,7 +2,7 @@
 title: "2026-02-22(주일) 오픈클로 유튜브 트렌드"
 description: "2026년 2월 22일 기준 OpenClaw(오픈클로) 유튜브 동향과 핵심 이슈를 빠르게 훑어보는 트렌드 분석입니다."
 pubDate: 2026-02-22T00:00:00.000Z
-updatedDate: 2026-02-22T14:01:00.000Z
+updatedDate: 2026-03-15T00:38:00.000Z
 slug: "openclaw-youtube-trend-20260222"
 tags: ["OpenClaw", "유튜브 트렌드"]
 ---
