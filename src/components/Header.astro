@@ -5,9 +5,13 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<nav aria-label="주요 내비게이션">
-		<div class="brand">
-			<a href="/">{SITE_TITLE}</a>
-		</div>
+		<a class="brand" href="/" aria-label={`${SITE_TITLE} 홈`}>
+			<span class="brand-mark">OC</span>
+			<span class="brand-copy">
+				<strong>OpenClaw 인사이트</strong>
+				<span>AI 에이전트 운영 아카이브</span>
+			</span>
+		</a>
 		<div class="internal-links">
 			<HeaderLink href="/">홈</HeaderLink>
 			<HeaderLink href="/blog">블로그</HeaderLink>
@@ -23,11 +27,13 @@ import HeaderLink from './HeaderLink.astro';
 
 <style>
 	header {
-		margin: 0;
+		position: sticky;
+		top: 0;
+		z-index: 20;
 		padding: 0 1rem;
-		background: rgba(255, 255, 255, 0.85);
-		backdrop-filter: blur(10px);
-		border-bottom: 1px solid rgba(var(--gray-light), 0.95);
+		background: rgba(255, 252, 247, 0.82);
+		backdrop-filter: blur(18px);
+		border-bottom: 1px solid rgba(var(--line), 0.55);
 	}
 
 	nav {
@@ -40,21 +46,49 @@ import HeaderLink from './HeaderLink.astro';
 		padding: 0.95rem 0;
 	}
 
-	.brand a {
-		font-size: 1.05rem;
-		font-weight: 800;
-		color: rgb(var(--black));
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.85rem;
 		text-decoration: none;
+	}
+
+	.brand-mark {
+		display: grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 999px;
+		background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+		color: #fff;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		box-shadow: 0 12px 24px rgba(18, 53, 44, 0.16);
+	}
+
+	.brand-copy {
+		display: grid;
+		line-height: 1.08;
+	}
+
+	.brand-copy strong {
+		color: rgb(var(--black));
+		font-size: 0.98rem;
+	}
+
+	.brand-copy span {
+		color: rgb(var(--gray));
+		font-size: 0.88rem;
 	}
 
 	.internal-links,
 	.external-links {
 		display: flex;
 		align-items: center;
-		gap: 0.95rem;
+		gap: 1rem;
 	}
 
-	.internal-links a,
+	.internal-links :global(a),
 	.external-links a {
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
@@ -73,7 +107,7 @@ import HeaderLink from './HeaderLink.astro';
 
 		.brand {
 			width: 100%;
-			text-align: center;
+			justify-content: center;
 		}
 	}
 
