@@ -46,7 +46,7 @@ const structuredData = [
 >
 	<section class="hero card-surface">
 		<div class="hero-copy">
-			<p class="eyebrow">OPENCLAW · AI AGENTS · AUTOMATION</p>
+			<p class="eyebrow">OPENCLAW &middot; AI AGENTS &middot; AUTOMATION</p>
 			<h1>OpenClaw와 AI 에이전트 운영 인사이트를 축적하는 블로그</h1>
 			<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
 			<div class="hero-links">
@@ -63,7 +63,7 @@ const structuredData = [
 				</div>
 				<div>
 					<span>콘텐츠 형태</span>
-					<strong>트렌드 · 설치 · 배포</strong>
+					<strong>트렌드 &middot; 설치 &middot; 배포</strong>
 				</div>
 			</div>
 			<ul>
@@ -152,7 +152,7 @@ const structuredData = [
 		font-size: 0.78rem;
 		font-weight: 800;
 		letter-spacing: 0.16em;
-		color: var(--accent);
+		color: var(--color-primary);
 	}
 
 	.hero h1 {
@@ -166,7 +166,7 @@ const structuredData = [
 		max-width: 62ch;
 		margin: 0;
 		font-size: 1.08rem;
-		color: rgb(var(--gray-dark));
+		color: var(--color-text);
 	}
 
 	.hero-links {
@@ -183,24 +183,37 @@ const structuredData = [
 		border-radius: 999px;
 		text-decoration: none;
 		font-weight: 700;
+		transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 	}
 
 	.hero-links .primary {
-		background: var(--accent);
-		color: #fff;
+		background: var(--color-primary);
+		color: var(--color-primary-text-on);
+		box-shadow: var(--shadow-glow);
+	}
+
+	.hero-links .primary:hover {
+		background: var(--color-primary-hover);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-lg);
 	}
 
 	.hero-links .secondary {
-		background: rgba(255, 255, 255, 0.76);
-		border: 1px solid rgba(var(--line), 0.8);
-		color: rgb(var(--gray-dark));
+		background: var(--color-bg-card);
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
+	}
+
+	.hero-links .secondary:hover {
+		background: var(--color-bg-card-hover);
+		border-color: var(--color-border-strong);
 	}
 
 	.hero-panel {
 		padding: 1.35rem;
 		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
-		border: 1px solid rgba(255, 255, 255, 0.9);
+		background: var(--color-bg-card);
+		border: 1px solid var(--glass-border);
 	}
 
 	.panel-label {
@@ -208,7 +221,7 @@ const structuredData = [
 		font-size: 0.74rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 
 	.hero-stats {
@@ -221,27 +234,27 @@ const structuredData = [
 	.hero-stats div {
 		padding: 0.95rem;
 		border-radius: 18px;
-		background: rgba(var(--surface-soft), 0.7);
-		border: 1px solid rgba(var(--line), 0.55);
+		background: var(--color-bg-soft);
+		border: 1px solid var(--color-border-soft);
 	}
 
 	.hero-stats span {
 		display: block;
 		font-size: 0.82rem;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 		margin-bottom: 0.35rem;
 	}
 
 	.hero-stats strong {
 		display: block;
 		line-height: 1.25;
-		color: rgb(var(--black));
+		color: var(--color-heading);
 	}
 
 	.hero-panel ul {
 		margin: 0;
 		padding-left: 1.1rem;
-		color: rgb(var(--gray-dark));
+		color: var(--color-text);
 	}
 
 	.section-heading {
@@ -250,7 +263,7 @@ const structuredData = [
 
 	.section-heading p {
 		margin: 0;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 
 	.topic-strip,
@@ -270,11 +283,18 @@ const structuredData = [
 		display: grid;
 		gap: 0.8rem;
 		padding: 1.15rem;
-		border: 1px solid rgba(255, 255, 255, 0.9);
+		border: 1px solid var(--glass-border);
 		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
-		box-shadow: var(--shadow);
-		backdrop-filter: blur(14px);
+		background: var(--color-bg-card);
+		box-shadow: var(--shadow-md);
+		backdrop-filter: var(--glass-blur);
+		transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	}
+
+	.card:hover {
+		background: var(--color-bg-card-hover);
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-2px);
 	}
 
 	.card a {
@@ -299,7 +319,7 @@ const structuredData = [
 
 	.meta {
 		font-size: 0.92rem;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 
 	@media (max-width: 900px) {

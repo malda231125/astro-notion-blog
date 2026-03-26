@@ -85,12 +85,12 @@ const structuredData = [
 		font-size: 0.82rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 
 	.lead {
 		margin: 0 0 1rem;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 
 	.post-list {
@@ -102,9 +102,17 @@ const structuredData = [
 		display: grid;
 		gap: 0.8rem;
 		padding: 1rem;
-		border: 1px solid rgb(var(--gray-light));
+		border: 1px solid var(--color-border);
 		border-radius: 18px;
-		background: rgba(255, 255, 255, 0.92);
+		background: var(--color-bg-card);
+		backdrop-filter: var(--glass-blur);
+		transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	}
+
+	.card:hover {
+		background: var(--color-bg-card-hover);
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-2px);
 	}
 
 	.card a {
@@ -123,6 +131,6 @@ const structuredData = [
 
 	.meta {
 		font-size: 0.92rem;
-		color: rgb(var(--gray));
+		color: var(--color-text-muted);
 	}
 </style>

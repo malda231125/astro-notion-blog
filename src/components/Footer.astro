@@ -14,15 +14,17 @@ const today = new Date();
 			<a href="/rss.xml">RSS</a>
 			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
 		</div>
-		<p class="copyright">© {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
+		<p class="copyright">&copy; {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
 	</div>
 </footer>
 
 <style>
 	footer {
 		padding: 3rem 1rem 4rem;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
+		background: var(--color-bg-soft);
+		color: var(--color-text-muted);
+		border-top: 1px solid var(--color-border-soft);
+		transition: background-color 0.3s ease;
 	}
 
 	.footer-inner {
@@ -33,7 +35,7 @@ const today = new Date();
 
 	.brand {
 		margin: 0 0 0.4rem;
-		color: rgb(var(--black));
+		color: var(--color-heading);
 		font-weight: 800;
 	}
 
@@ -52,12 +54,18 @@ const today = new Date();
 
 	.links a {
 		text-decoration: none;
-		color: rgb(var(--gray-dark));
+		color: var(--color-text);
 		font-weight: 600;
+		transition: color 0.15s ease;
+	}
+
+	.links a:hover {
+		color: var(--color-primary);
 	}
 
 	.copyright {
 		margin: 0;
 		font-size: 0.95rem;
+		color: var(--color-text-subtle);
 	}
 </style>
