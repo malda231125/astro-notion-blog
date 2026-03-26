@@ -26,7 +26,7 @@ const structuredData = {
 		</p>
 
 		<div class="grid">
-			<section>
+			<section class="info-card">
 				<h2>주요 주제</h2>
 				<ul>
 					<li>OpenClaw 설치와 운영</li>
@@ -37,7 +37,7 @@ const structuredData = {
 				</ul>
 			</section>
 
-			<section>
+			<section class="info-card">
 				<h2>운영 방식</h2>
 				<p>
 					Notion에서 작성한 글을 Astro 정적 블로그로 동기화해 발행합니다. 기술 메모,
@@ -47,7 +47,7 @@ const structuredData = {
 			</section>
 		</div>
 
-		<section class="note">
+		<section class="info-card note">
 			<h2>현재 상태</h2>
 			<p>
 				아직 콘텐츠를 축적하는 단계이기 때문에 구조와 SEO를 계속 손보는 중입니다. 글 수와
@@ -65,40 +65,61 @@ const structuredData = {
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.85rem;
+		font-size: 0.78rem;
 		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		letter-spacing: 0.16em;
+		color: var(--accent);
+		text-transform: uppercase;
 	}
 
 	.lead {
-		font-size: 1.1rem;
+		font-size: 1.08rem;
 		color: rgb(var(--gray-dark));
-		max-width: 760px;
+		max-width: 740px;
+		line-height: 1.7;
 	}
 
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.2rem;
+		gap: 1rem;
 	}
 
-	.grid section,
-	.note {
-		padding: 1.25rem;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.85);
+	.info-card {
+		padding: 1.35rem;
+		border: 1px solid rgba(var(--line), 0.3);
+		border-radius: var(--radius-lg, 22px);
+		background: rgba(255, 255, 255, 0.75);
+		box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.06));
+		transition: box-shadow 200ms ease;
 	}
 
-	.grid h2,
-	.note h2 {
-		margin-bottom: 0.7rem;
+	.info-card:hover {
+		box-shadow: var(--shadow, 0 8px 24px rgba(0,0,0,0.08));
 	}
 
-	.grid ul {
+	.info-card h2 {
+		margin-bottom: 0.75rem;
+		font-size: 1.25rem;
+	}
+
+	.info-card ul {
 		padding-left: 1.15rem;
 		margin: 0;
+	}
+
+	.info-card li {
+		margin-bottom: 0.35rem;
+		line-height: 1.6;
+	}
+
+	.info-card p {
+		margin: 0;
+		line-height: 1.7;
+	}
+
+	.note {
+		border-left: 3px solid var(--accent);
 	}
 
 	@media (max-width: 720px) {

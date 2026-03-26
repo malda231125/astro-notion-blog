@@ -51,21 +51,23 @@ const structuredData = {
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.82rem;
+		font-size: 0.78rem;
 		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		letter-spacing: 0.16em;
+		color: var(--accent);
+		text-transform: uppercase;
 	}
 
 	.lead {
-		margin: 0 0 1rem;
+		margin: 0 0 1.25rem;
 		color: rgb(var(--gray));
+		font-size: 0.95rem;
 	}
 
 	.tag-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
+		gap: 0.85rem;
 		list-style: none;
 		padding: 0;
 		margin: 0;
@@ -77,25 +79,44 @@ const structuredData = {
 
 	.tag-grid a {
 		display: grid;
-		gap: 0.35rem;
-		padding: 1rem;
-		border-radius: 16px;
-		border: 1px solid rgb(var(--gray-light));
-		background: rgba(255, 255, 255, 0.92);
+		gap: 0.3rem;
+		padding: 1.15rem;
+		border-radius: var(--radius-lg, 22px);
+		border: 1px solid rgba(var(--line), 0.25);
+		background: rgba(255, 255, 255, 0.7);
+		box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.06));
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
+		transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+	}
+
+	.tag-grid a:hover {
+		box-shadow: var(--shadow, 0 8px 24px rgba(0,0,0,0.08));
+		transform: translateY(-2px);
+		border-color: rgba(26, 107, 82, 0.2);
 	}
 
 	.tag-grid strong {
 		font-size: 1.05rem;
+		transition: color 150ms ease;
+	}
+
+	.tag-grid a:hover strong {
+		color: var(--accent);
 	}
 
 	.tag-grid span {
 		color: rgb(var(--gray));
-		font-size: 0.95rem;
+		font-size: 0.88rem;
 	}
 
 	@media (max-width: 900px) {
+		.tag-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 520px) {
 		.tag-grid {
 			grid-template-columns: 1fr;
 		}

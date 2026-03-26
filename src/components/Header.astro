@@ -19,8 +19,8 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/about">소개</HeaderLink>
 		</div>
 		<div class="external-links">
-			<a href="/rss.xml">RSS</a>
-			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+			<a href="/rss.xml" aria-label="RSS 피드">RSS</a>
+			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소">GitHub</a>
 		</div>
 	</nav>
 </header>
@@ -30,10 +30,11 @@ import HeaderLink from './HeaderLink.astro';
 		position: sticky;
 		top: 0;
 		z-index: 20;
-		padding: 0 1rem;
-		background: rgba(255, 252, 247, 0.82);
-		backdrop-filter: blur(18px);
-		border-bottom: 1px solid rgba(var(--line), 0.55);
+		padding: 0 1.25rem;
+		background: rgba(255, 251, 246, 0.88);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border-bottom: 1px solid rgba(var(--line), 0.35);
 	}
 
 	nav {
@@ -42,67 +43,101 @@ import HeaderLink from './HeaderLink.astro';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.95rem 0;
+		gap: 1.25rem;
+		padding: 0.8rem 0;
 	}
 
+	/* ── Brand ────────────────────────────────── */
 	.brand {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.85rem;
+		gap: 0.75rem;
 		text-decoration: none;
+		transition: opacity 150ms ease;
+	}
+
+	.brand:hover {
+		opacity: 0.8;
 	}
 
 	.brand-mark {
 		display: grid;
 		place-items: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 999px;
-		background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+		width: 2.35rem;
+		height: 2.35rem;
+		border-radius: 10px;
+		background: linear-gradient(145deg, var(--accent), var(--accent-dark));
 		color: #fff;
 		font-weight: 800;
-		letter-spacing: 0.04em;
-		box-shadow: 0 12px 24px rgba(18, 53, 44, 0.16);
+		font-size: 0.82rem;
+		letter-spacing: 0.05em;
+		box-shadow: 0 3px 10px rgba(15, 69, 53, 0.22);
+		transition: transform 150ms ease;
+	}
+
+	.brand:hover .brand-mark {
+		transform: scale(1.05);
 	}
 
 	.brand-copy {
 		display: grid;
-		line-height: 1.08;
+		line-height: 1.15;
 	}
 
 	.brand-copy strong {
 		color: rgb(var(--black));
-		font-size: 0.98rem;
+		font-size: 0.92rem;
+		letter-spacing: -0.01em;
 	}
 
 	.brand-copy span {
 		color: rgb(var(--gray));
-		font-size: 0.88rem;
+		font-size: 0.78rem;
 	}
 
+	/* ── Navigation links ─────────────────────── */
 	.internal-links,
 	.external-links {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.15rem;
 	}
 
 	.internal-links :global(a),
 	.external-links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.4rem 0.7rem;
+		border-radius: 8px;
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
+		font-size: 0.92rem;
 		text-decoration: none;
+		transition: color 150ms ease, background 150ms ease;
+	}
+
+	.internal-links :global(a:hover),
+	.external-links a:hover {
+		color: var(--accent);
+		background: rgba(26, 107, 82, 0.06);
+	}
+
+	.external-links {
+		gap: 0.25rem;
 	}
 
 	.external-links a {
-		font-size: 0.95rem;
+		font-size: 0.88rem;
+		color: rgb(var(--gray));
 	}
 
+	/* ── Responsive ────────────────────────────── */
 	@media (max-width: 860px) {
 		nav {
 			flex-wrap: wrap;
 			justify-content: center;
+			gap: 0.5rem;
 		}
 
 		.brand {
@@ -112,11 +147,22 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	@media (max-width: 560px) {
+		header {
+			padding: 0 0.75rem;
+		}
+
 		.internal-links,
 		.external-links {
 			width: 100%;
 			justify-content: center;
 			flex-wrap: wrap;
+			gap: 0.1rem;
+		}
+
+		.internal-links :global(a),
+		.external-links a {
+			padding: 0.35rem 0.5rem;
+			font-size: 0.88rem;
 		}
 	}
 </style>
