@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
 	date: Date;
 }
@@ -6,12 +8,28 @@ interface Props {
 const { date } = Astro.props;
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
+<span class="formatted-date">
+	<Icon name="calendar" size="0.95em" />
+	<time datetime={date.toISOString()}>
+		{
+			date.toLocaleDateString('en-us', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric',
+			})
+		}
+	</time>
+</span>
+
+<style>
+	.formatted-date {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		color: rgb(var(--gray));
 	}
-</time>
+
+	.formatted-date :global(.icon) {
+		opacity: 0.7;
+	}
+</style>

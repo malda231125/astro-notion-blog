@@ -1,6 +1,7 @@
 ---
 import { GITHUB_REPO_URL, SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import Icon from './Icon.astro';
 ---
 
 <header>
@@ -13,14 +14,20 @@ import HeaderLink from './HeaderLink.astro';
 			</span>
 		</a>
 		<div class="internal-links">
-			<HeaderLink href="/">홈</HeaderLink>
-			<HeaderLink href="/blog">블로그</HeaderLink>
-			<HeaderLink href="/tags">태그</HeaderLink>
-			<HeaderLink href="/about">소개</HeaderLink>
+			<HeaderLink href="/"><Icon name="home" size="1.1em" /> 홈</HeaderLink>
+			<HeaderLink href="/blog"><Icon name="book-open" size="1.1em" /> 블로그</HeaderLink>
+			<HeaderLink href="/tags"><Icon name="tag" size="1.1em" /> 태그</HeaderLink>
+			<HeaderLink href="/about"><Icon name="user" size="1.1em" /> 소개</HeaderLink>
 		</div>
 		<div class="external-links">
-			<a href="/rss.xml">RSS</a>
-			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+			<a href="/rss.xml" aria-label="RSS 피드">
+				<Icon name="rss" size="1.15em" />
+				<span>RSS</span>
+			</a>
+			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소">
+				<Icon name="github" size="1.15em" />
+				<span>GitHub</span>
+			</a>
 		</div>
 	</nav>
 </header>
@@ -90,9 +97,18 @@ import HeaderLink from './HeaderLink.astro';
 
 	.internal-links :global(a),
 	.external-links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
 		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.internal-links :global(a:hover),
+	.external-links a:hover {
+		color: var(--accent);
 	}
 
 	.external-links a {

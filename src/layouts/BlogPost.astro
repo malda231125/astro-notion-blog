@@ -5,6 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Icon from '../components/Icon.astro';
 import TagList from '../components/TagList.astro';
 import {
 	SITE_AUTHOR_NAME,
@@ -134,9 +135,16 @@ const breadcrumbJsonLd = {
 				color: rgb(var(--gray));
 			}
 			.breadcrumbs a {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.25rem;
 				color: rgb(var(--gray-dark));
 				text-decoration: none;
 				font-weight: 600;
+			}
+			.breadcrumbs :global(.breadcrumb-sep) {
+				color: rgb(var(--gray));
+				opacity: 0.5;
 			}
 			.title {
 				margin-bottom: 1.4rem;
@@ -202,7 +210,9 @@ const breadcrumbJsonLd = {
 				backdrop-filter: blur(12px);
 			}
 			.post-nav-label {
-				display: block;
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
 				font-size: 0.85rem;
 				font-weight: 800;
 				letter-spacing: 0.04em;
@@ -268,10 +278,10 @@ const breadcrumbJsonLd = {
 				</div>
 				<div class="prose">
 					<nav class="breadcrumbs" aria-label="breadcrumb">
-						<a href="/">홈</a>
-						<span>/</span>
-						<a href="/blog/">블로그</a>
-						<span>/</span>
+						<a href="/"><Icon name="home" size="0.95em" /> 홈</a>
+						<Icon name="chevron-right" size="0.85em" class="breadcrumb-sep" />
+						<a href="/blog/"><Icon name="book-open" size="0.95em" /> 블로그</a>
+						<Icon name="chevron-right" size="0.85em" class="breadcrumb-sep" />
 						<span aria-current="page">{title}</span>
 					</nav>
 					<header class="title">
@@ -302,7 +312,7 @@ const breadcrumbJsonLd = {
 									{previousPost ? (
 										<a href={getPostUrl(previousPost)}>
 											<div class="post-nav-card">
-												<span class="post-nav-label">더 최신 글</span>
+												<span class="post-nav-label"><Icon name="chevron-left" size="0.9em" /> 더 최신 글</span>
 												<h3>{previousPost.data.title}</h3>
 												<p>{previousPost.data.description}</p>
 											</div>
@@ -311,7 +321,7 @@ const breadcrumbJsonLd = {
 									{nextPost ? (
 										<a href={getPostUrl(nextPost)}>
 											<div class="post-nav-card">
-												<span class="post-nav-label">더 이전 글</span>
+												<span class="post-nav-label">더 이전 글 <Icon name="chevron-right" size="0.9em" /></span>
 												<h3>{nextPost.data.title}</h3>
 												<p>{nextPost.data.description}</p>
 											</div>

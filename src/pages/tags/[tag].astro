@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import Icon from '../../components/Icon.astro';
 import TagList from '../../components/TagList.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { SITE_URL } from '../../consts';
@@ -53,8 +54,8 @@ const structuredData = [
 	structuredData={structuredData}
 >
 	<section class="tag-page">
-		<p class="eyebrow">TAG ARCHIVE</p>
-		<h1>#{tag}</h1>
+		<p class="eyebrow"><Icon name="tag" size="1.1em" /> TAG ARCHIVE</p>
+		<h1><Icon name="hash" size="0.75em" />{tag}</h1>
 		<p class="lead">이 태그와 관련된 글 {filteredPosts.length}개를 모았습니다.</p>
 
 		<div class="post-list">
@@ -81,11 +82,24 @@ const structuredData = [
 	}
 
 	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
 		margin: 0;
 		font-size: 0.82rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
 		color: rgb(var(--gray));
+	}
+
+	h1 {
+		display: flex;
+		align-items: center;
+		gap: 0.2rem;
+	}
+
+	h1 :global(.icon) {
+		opacity: 0.4;
 	}
 
 	.lead {

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import Icon from '../../components/Icon.astro';
 import TagList from '../../components/TagList.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { SITE_SECTION_DESCRIPTION, SITE_TITLE, SITE_URL } from '../../consts';
@@ -38,7 +39,7 @@ const structuredData = [
 	structuredData={structuredData}
 >
 	<section class="archive-hero">
-		<p class="eyebrow">BLOG ARCHIVE</p>
+		<p class="eyebrow"><Icon name="newspaper" size="1.1em" /> BLOG ARCHIVE</p>
 		<h1>{SITE_TITLE} 글 모음</h1>
 		<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
 	</section>
@@ -77,6 +78,9 @@ const structuredData = [
 	}
 
 	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
 		margin: 0;
 		font-size: 0.82rem;
 		font-weight: 800;

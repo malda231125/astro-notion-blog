@@ -1,5 +1,6 @@
 ---
 import { GITHUB_REPO_URL, SITE_BRAND_NAME, SITE_DESCRIPTION } from '../consts';
+import Icon from './Icon.astro';
 const today = new Date();
 ---
 
@@ -8,13 +9,15 @@ const today = new Date();
 		<p class="brand">{SITE_BRAND_NAME}</p>
 		<p class="description">{SITE_DESCRIPTION}</p>
 		<div class="links">
-			<a href="/blog">블로그</a>
-			<a href="/tags">태그</a>
-			<a href="/about">소개</a>
-			<a href="/rss.xml">RSS</a>
-			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+			<a href="/blog"><Icon name="book-open" size="1em" /> 블로그</a>
+			<a href="/tags"><Icon name="tag" size="1em" /> 태그</a>
+			<a href="/about"><Icon name="user" size="1em" /> 소개</a>
+			<a href="/rss.xml"><Icon name="rss" size="1em" /> RSS</a>
+			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">
+				<Icon name="github" size="1em" /> GitHub
+			</a>
 		</div>
-		<p class="copyright">© {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
+		<p class="copyright">&copy; {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
 	</div>
 </footer>
 
@@ -51,9 +54,17 @@ const today = new Date();
 	}
 
 	.links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
+		transition: color 0.15s ease;
+	}
+
+	.links a:hover {
+		color: var(--accent);
 	}
 
 	.copyright {
