@@ -139,7 +139,8 @@ const structuredData = [
 		gap: 2rem;
 		align-items: start;
 		padding: 2rem;
-		border-radius: 30px;
+		border-radius: var(--radius-xl);
+		transition: box-shadow var(--transition-slow);
 	}
 
 	.hero-copy {
@@ -179,15 +180,32 @@ const structuredData = [
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.82rem 1rem;
+		padding: 0.82rem 1.25rem;
 		border-radius: 999px;
 		text-decoration: none;
 		font-weight: 700;
+		transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+	}
+
+	.hero-links a:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
 	}
 
 	.hero-links .primary {
-		background: var(--accent);
+		background: linear-gradient(135deg, var(--accent), var(--accent-dark));
 		color: #fff;
+		box-shadow: 0 4px 14px rgba(18, 53, 44, 0.2);
+	}
+
+	.hero-links .primary:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(18, 53, 44, 0.3);
+	}
+
+	.hero-links .primary:active {
+		transform: translateY(0);
+		box-shadow: 0 2px 8px rgba(18, 53, 44, 0.2);
 	}
 
 	.hero-links .secondary {
@@ -196,11 +214,23 @@ const structuredData = [
 		color: rgb(var(--gray-dark));
 	}
 
+	.hero-links .secondary:hover {
+		background: rgba(255, 255, 255, 0.95);
+		border-color: rgba(var(--line), 1);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(36, 31, 25, 0.06);
+	}
+
 	.hero-panel {
 		padding: 1.35rem;
-		border-radius: 24px;
+		border-radius: var(--radius-lg);
 		background: rgba(255, 255, 255, 0.72);
 		border: 1px solid rgba(255, 255, 255, 0.9);
+		transition: box-shadow var(--transition-slow);
+	}
+
+	.hero-panel:hover {
+		box-shadow: var(--shadow-sm);
 	}
 
 	.panel-label {
@@ -223,6 +253,12 @@ const structuredData = [
 		border-radius: 18px;
 		background: rgba(var(--surface-soft), 0.7);
 		border: 1px solid rgba(var(--line), 0.55);
+		transition: border-color var(--transition-fast), background var(--transition-fast);
+	}
+
+	.hero-stats div:hover {
+		border-color: rgba(var(--line), 0.9);
+		background: rgba(var(--surface-soft), 0.9);
 	}
 
 	.hero-stats span {
@@ -271,10 +307,17 @@ const structuredData = [
 		gap: 0.8rem;
 		padding: 1.15rem;
 		border: 1px solid rgba(255, 255, 255, 0.9);
-		border-radius: 24px;
+		border-radius: var(--radius-lg);
 		background: rgba(255, 255, 255, 0.72);
 		box-shadow: var(--shadow);
 		backdrop-filter: blur(14px);
+		transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+	}
+
+	.card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-lg);
+		border-color: rgba(28, 79, 65, 0.12);
 	}
 
 	.card a {
@@ -286,11 +329,21 @@ const structuredData = [
 		width: 100%;
 		height: auto;
 		border-radius: 14px;
+		transition: transform var(--transition-slow);
+	}
+
+	.card:hover img {
+		transform: scale(1.02);
 	}
 
 	.card h3 {
 		margin: 0.2rem 0 0.4rem;
 		font-size: 1.2rem;
+		transition: color var(--transition-fast);
+	}
+
+	.card:hover h3 {
+		color: var(--accent-dark);
 	}
 
 	.card p {

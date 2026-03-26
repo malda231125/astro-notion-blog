@@ -109,8 +109,15 @@ const structuredData = [
 		gap: 0.8rem;
 		padding: 1rem;
 		border: 1px solid rgb(var(--gray-light));
-		border-radius: 18px;
+		border-radius: var(--radius-md);
 		background: rgba(255, 255, 255, 0.9);
+		transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+	}
+
+	.card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow);
+		border-color: rgba(28, 79, 65, 0.12);
 	}
 
 	.card a {
@@ -122,10 +129,20 @@ const structuredData = [
 		width: 100%;
 		height: auto;
 		border-radius: 14px;
+		transition: transform var(--transition-slow);
+	}
+
+	.card:hover img {
+		transform: scale(1.02);
 	}
 
 	.card h3 {
 		margin: 0.2rem 0 0.4rem;
+		transition: color var(--transition-fast);
+	}
+
+	.card:hover h3 {
+		color: var(--accent-dark);
 	}
 
 	.card p {
