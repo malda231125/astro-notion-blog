@@ -5,24 +5,31 @@ const today = new Date();
 
 <footer>
 	<div class="footer-inner">
+		<div class="footer-accent-line"></div>
 		<p class="brand">{SITE_BRAND_NAME}</p>
 		<p class="description">{SITE_DESCRIPTION}</p>
 		<div class="links">
 			<a href="/blog">블로그</a>
+			<span class="divider">/</span>
 			<a href="/tags">태그</a>
+			<span class="divider">/</span>
 			<a href="/about">소개</a>
+			<span class="divider">/</span>
 			<a href="/rss.xml">RSS</a>
+			<span class="divider">/</span>
 			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
 		</div>
-		<p class="copyright">© {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
+		<p class="copyright">&copy; {today.getFullYear()} {SITE_BRAND_NAME}. All rights reserved.</p>
 	</div>
 </footer>
 
 <style>
 	footer {
-		padding: 3rem 1rem 4rem;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		padding: 3.5rem 1rem 4rem;
+		background: rgb(16, 15, 13);
 		color: rgb(var(--gray));
+		border-top: 1px solid rgba(var(--line), 0.3);
+		position: relative;
 	}
 
 	.footer-inner {
@@ -31,33 +38,61 @@ const today = new Date();
 		text-align: center;
 	}
 
+	.footer-accent-line {
+		width: 3rem;
+		height: 2px;
+		background: var(--accent);
+		margin: 0 auto 2rem;
+		animation: accentLine 0.8s ease both;
+	}
+
 	.brand {
 		margin: 0 0 0.4rem;
 		color: rgb(var(--black));
-		font-weight: 800;
+		font-weight: 700;
+		font-family: "Playfair Display", Georgia, serif;
+		font-size: 1.15rem;
+		letter-spacing: -0.01em;
 	}
 
 	.description {
-		margin: 0 auto 1rem;
+		margin: 0 auto 1.5rem;
 		max-width: 640px;
+		font-size: 0.92rem;
+		line-height: 1.6;
 	}
 
 	.links {
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
-		gap: 0.9rem;
-		margin-bottom: 1rem;
+		align-items: center;
+		gap: 0.55rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.links a {
 		text-decoration: none;
-		color: rgb(var(--gray-dark));
-		font-weight: 600;
+		color: rgb(var(--gray));
+		font-weight: 500;
+		font-size: 0.88rem;
+		letter-spacing: 0.02em;
+		transition: color 0.2s ease;
+	}
+
+	.links a:hover {
+		color: var(--accent);
+	}
+
+	.divider {
+		color: rgba(var(--gray), 0.3);
+		font-size: 0.8rem;
 	}
 
 	.copyright {
 		margin: 0;
-		font-size: 0.95rem;
+		font-size: 0.82rem;
+		opacity: 0.5;
+		letter-spacing: 0.01em;
 	}
 </style>

@@ -51,10 +51,15 @@ const structuredData = {
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		color: var(--accent);
+	}
+
+	h1 {
+		color: var(--cream);
+		font-family: "Playfair Display", Georgia, serif;
 	}
 
 	.lead {
@@ -79,11 +84,22 @@ const structuredData = {
 		display: grid;
 		gap: 0.35rem;
 		padding: 1rem;
-		border-radius: 16px;
-		border: 1px solid rgb(var(--gray-light));
-		background: rgba(255, 255, 255, 0.92);
+		border-radius: 10px;
+		border: 1px solid rgba(var(--line), 0.35);
+		background: rgba(var(--surface-elevated), 0.7);
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
+		transition: all 0.25s ease;
+	}
+
+	.tag-grid a:hover {
+		border-color: rgba(200, 69, 62, 0.3);
+		background: rgba(200, 69, 62, 0.06);
+		transform: translateY(-1px);
+	}
+
+	.tag-grid a:hover strong {
+		color: var(--accent);
 	}
 
 	.tag-grid strong {

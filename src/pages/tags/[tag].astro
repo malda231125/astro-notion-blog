@@ -82,10 +82,15 @@ const structuredData = [
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		color: var(--accent);
+	}
+
+	h1 {
+		color: var(--cream);
+		font-family: "Playfair Display", Georgia, serif;
 	}
 
 	.lead {
@@ -101,10 +106,27 @@ const structuredData = [
 	.card {
 		display: grid;
 		gap: 0.8rem;
-		padding: 1rem;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 18px;
-		background: rgba(255, 255, 255, 0.92);
+		padding: 1.15rem;
+		border: 1px solid rgba(var(--line), 0.3);
+		border-radius: 12px;
+		background: rgba(var(--surface-elevated), 0.7);
+		transition: all 0.25s ease;
+	}
+
+	.card:hover {
+		border-color: rgba(var(--line), 0.55);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+		transform: translateY(-1px);
+	}
+
+	.card h2 {
+		font-family: "Playfair Display", Georgia, serif;
+		color: rgb(var(--black));
+		transition: color 0.2s ease;
+	}
+
+	.card:hover h2 {
+		color: var(--cream);
 	}
 
 	.card a {

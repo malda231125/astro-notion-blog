@@ -110,12 +110,13 @@ const breadcrumbJsonLd = {
 			}
 			.hero-image {
 				width: 100%;
+				animation: fadeIn 0.8s ease both;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				border-radius: 8px;
+				box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
 			}
 			.prose {
 				width: 100%;
@@ -130,31 +131,49 @@ const breadcrumbJsonLd = {
 				align-items: center;
 				gap: 0.45rem;
 				margin-bottom: 1rem;
-				font-size: 0.92rem;
+				font-size: 0.85rem;
 				color: rgb(var(--gray));
+				animation: fadeIn 0.5s ease both;
 			}
 			.breadcrumbs a {
-				color: rgb(var(--gray-dark));
+				color: rgb(var(--gray));
 				text-decoration: none;
-				font-weight: 600;
+				font-weight: 500;
+				transition: color 0.2s ease;
+			}
+			.breadcrumbs a:hover {
+				color: var(--accent);
+			}
+			.breadcrumbs span {
+				opacity: 0.4;
 			}
 			.title {
 				margin-bottom: 1.4rem;
-				padding: 1.2rem 0 0.65rem;
+				padding: 1.5rem 0 0.65rem;
 				text-align: center;
 				line-height: 1.2;
+				animation: fadeUp 0.7s ease both;
+				animation-delay: 0.1s;
 			}
 			.title h1 {
 				margin: 0 0 0.85rem 0;
-				font-size: clamp(2.2rem, 6vw, 4rem);
-				line-height: 1.08;
+				font-size: clamp(2.2rem, 6vw, 3.8rem);
+				line-height: 1.1;
 				word-break: keep-all;
 				letter-spacing: -0.035em;
+				color: var(--cream);
 			}
 			.title .description {
 				max-width: 680px;
 				margin: 0.5rem auto 0;
 				color: rgb(var(--gray));
+				font-size: 1.05rem;
+				line-height: 1.6;
+			}
+			.title hr {
+				max-width: 3rem;
+				margin: 1.5rem auto 0;
+				border-top: 2px solid var(--accent);
 			}
 			.meta {
 				display: flex;
@@ -165,21 +184,67 @@ const breadcrumbJsonLd = {
 			}
 			.date {
 				color: rgb(var(--gray));
-				font-size: 0.95rem;
+				font-size: 0.88rem;
+				letter-spacing: 0.02em;
 			}
 			.last-updated-on {
 				font-style: italic;
+				opacity: 0.7;
 			}
+
+			/* Article Content */
+			.prose :global(h2) {
+				margin-top: 2.5rem;
+				padding-bottom: 0.5rem;
+				border-bottom: 1px solid rgba(var(--line), 0.3);
+				color: var(--cream);
+			}
+
+			.prose :global(h3) {
+				color: rgb(var(--black));
+				margin-top: 2rem;
+			}
+
+			.prose :global(a) {
+				color: var(--accent);
+				text-decoration-color: rgba(200, 69, 62, 0.3);
+				transition: text-decoration-color 0.2s ease;
+			}
+
+			.prose :global(a:hover) {
+				text-decoration-color: var(--accent);
+			}
+
+			.prose :global(blockquote) {
+				margin: 1.5rem 0;
+				padding: 0.75rem 1.25rem;
+				border-left: 3px solid var(--accent);
+				background: rgba(var(--surface-elevated), 0.5);
+				border-radius: 0 8px 8px 0;
+			}
+
+			/* Article Footer */
 			.article-footer {
 				margin-top: 3.5rem;
 				padding-top: 1.75rem;
-				border-top: 1px solid rgba(var(--line), 0.7);
+				border-top: 1px solid rgba(var(--line), 0.4);
 				display: grid;
 				gap: 1.5rem;
+				animation: fadeUp 0.5s ease both;
 			}
 			.section-title {
 				margin-bottom: 0.75rem;
 				font-size: 1.1rem;
+				font-family: "Playfair Display", Georgia, serif;
+				color: var(--cream);
+			}
+			.section-title::after {
+				content: "";
+				display: block;
+				width: 1.5rem;
+				height: 2px;
+				background: var(--accent);
+				margin-top: 0.35rem;
 			}
 			.post-nav {
 				display: grid;
@@ -195,19 +260,27 @@ const breadcrumbJsonLd = {
 			.post-nav-card,
 			.related-card {
 				padding: 1.1rem;
-				border: 1px solid rgba(255, 255, 255, 0.9);
-				border-radius: 22px;
-				background: rgba(255, 255, 255, 0.74);
-				box-shadow: var(--shadow);
-				backdrop-filter: blur(12px);
+				border: 1px solid rgba(var(--line), 0.3);
+				border-radius: 10px;
+				background: rgba(var(--surface-elevated), 0.7);
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+				backdrop-filter: blur(10px);
+				transition: all 0.25s ease;
+			}
+			.post-nav-card:hover,
+			.related-card:hover {
+				border-color: rgba(var(--line), 0.55);
+				box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+				transform: translateY(-1px);
 			}
 			.post-nav-label {
 				display: block;
-				font-size: 0.85rem;
-				font-weight: 800;
-				letter-spacing: 0.04em;
-				color: rgb(var(--gray));
+				font-size: 0.75rem;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				color: var(--accent);
 				margin-bottom: 0.35rem;
+				text-transform: uppercase;
 			}
 			.related-list {
 				display: grid;
@@ -218,13 +291,22 @@ const breadcrumbJsonLd = {
 			.post-nav-card h3 {
 				margin: 0.25rem 0 0.35rem;
 				font-size: 1.05rem;
+				font-family: "Playfair Display", Georgia, serif;
+				color: rgb(var(--black));
+				transition: color 0.2s ease;
+			}
+			.post-nav-card:hover h3,
+			.related-card:hover h3 {
+				color: var(--cream);
 			}
 			.related-card p,
 			.post-nav-card p {
 				margin: 0;
+				font-size: 0.88rem;
+				color: rgb(var(--gray));
 			}
 			.related-meta {
-				font-size: 0.9rem;
+				font-size: 0.82rem;
 				color: rgb(var(--gray));
 				margin-bottom: 0.4rem;
 			}
