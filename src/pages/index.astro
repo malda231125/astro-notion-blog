@@ -44,31 +44,34 @@ const structuredData = [
 	keywords={['OpenClaw', 'AI 에이전트', '자동화', '홈서버', 'SEO']}
 	structuredData={structuredData}
 >
-	<section class="hero card-surface">
+	<section class="hero">
 		<div class="hero-copy">
-			<p class="eyebrow">OPENCLAW · AI AGENTS · AUTOMATION</p>
+			<p class="eyebrow">OPENCLAW &middot; AI AGENTS &middot; AUTOMATION</p>
 			<h1>OpenClaw와 AI 에이전트 운영 인사이트를 축적하는 블로그</h1>
 			<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
 			<div class="hero-links">
-				<a class="primary" href="/blog">전체 글 보기</a>
-				<a class="secondary" href="/about">블로그 소개</a>
+				<a class="btn-primary" href="/blog">
+					전체 글 보기
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+				</a>
+				<a class="btn-secondary" href="/about">블로그 소개</a>
 			</div>
 		</div>
 		<aside class="hero-panel" aria-label="블로그 개요">
 			<p class="panel-label">EDITORIAL FOCUS</p>
 			<div class="hero-stats">
-				<div>
+				<div class="stat-card">
 					<span>대표 주제</span>
 					<strong>OpenClaw 운영</strong>
 				</div>
-				<div>
+				<div class="stat-card">
 					<span>콘텐츠 형태</span>
-					<strong>트렌드 · 설치 · 배포</strong>
+					<strong>트렌드 / 설치 / 배포</strong>
 				</div>
 			</div>
 			<ul>
 				<li>릴리즈와 생태계 변화를 빠르게 정리합니다.</li>
-				<li>실사용 운영 관점에서 설치·배포·자동화를 아카이브합니다.</li>
+				<li>실사용 운영 관점에서 설치/배포/자동화를 아카이브합니다.</li>
 				<li>검색과 재탐색이 쉬운 구조로 태그/시리즈를 정리합니다.</li>
 			</ul>
 		</aside>
@@ -90,17 +93,19 @@ const structuredData = [
 			<p>먼저 읽기 좋은 최근 글과 운영 기록입니다.</p>
 		</div>
 		<div class="featured-grid">
-			{featuredPosts.map((post) => (
-				<article class="card featured-card">
+			{featuredPosts.map((post, i) => (
+				<article class="card featured-card" style={`animation-delay: ${i * 60}ms`}>
 					<a href={getPostUrl(post)}>
 						{post.data.heroImage && (
-							<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+							<div class="card-image">
+								<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+							</div>
 						)}
 						<p class="meta">
 							<FormattedDate date={post.data.pubDate} />
 						</p>
 						<h3>{post.data.title}</h3>
-						<p>{post.data.description}</p>
+						<p class="card-desc">{post.data.description}</p>
 					</a>
 					<TagList tags={post.data.tags} />
 				</article>
@@ -115,14 +120,14 @@ const structuredData = [
 				<p>릴리즈 분석, 트렌드 정리, 운영 메모를 최신순으로 모았습니다.</p>
 			</div>
 			<div class="list-grid">
-				{latestPosts.map((post) => (
-					<article class="card compact-card">
+				{latestPosts.map((post, i) => (
+					<article class="card compact-card" style={`animation-delay: ${i * 40}ms`}>
 						<a href={getPostUrl(post)}>
 							<p class="meta">
 								<FormattedDate date={post.data.pubDate} />
 							</p>
 							<h3>{post.data.title}</h3>
-							<p>{post.data.description}</p>
+							<p class="card-desc">{post.data.description}</p>
 						</a>
 						<TagList tags={post.data.tags} />
 					</article>
@@ -133,79 +138,106 @@ const structuredData = [
 </PageLayout>
 
 <style>
+	/* ---- Hero ---- */
 	.hero {
 		display: grid;
 		grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-		gap: 2rem;
+		gap: var(--space-xl);
 		align-items: start;
-		padding: 2rem;
-		border-radius: 30px;
+		padding: var(--space-xl);
+		border-radius: var(--radius-xl);
+		background: rgba(255, 255, 255, 0.68);
+		border: 1px solid rgba(255, 255, 255, 0.9);
+		box-shadow: var(--shadow);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 	}
 
 	.hero-copy {
 		display: grid;
-		gap: 1rem;
+		gap: var(--space-md);
 	}
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.78rem;
+		font-size: 0.75rem;
 		font-weight: 800;
 		letter-spacing: 0.16em;
 		color: var(--accent);
 	}
 
 	.hero h1 {
-		max-width: 14ch;
+		max-width: 15ch;
 		margin: 0;
-		font-size: clamp(2.8rem, 4.8vw, 4.4rem);
+		font-size: clamp(2.6rem, 4.8vw, 4.2rem);
 		line-height: 1.06;
 	}
 
 	.lead {
 		max-width: 62ch;
 		margin: 0;
-		font-size: 1.08rem;
+		font-size: 1.06rem;
 		color: rgb(var(--gray-dark));
+		line-height: 1.7;
 	}
 
 	.hero-links {
 		display: flex;
-		gap: 0.8rem;
+		gap: 0.75rem;
 		flex-wrap: wrap;
+		margin-top: 0.25rem;
 	}
 
 	.hero-links a {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.82rem 1rem;
-		border-radius: 999px;
+		gap: 0.4rem;
+		padding: 0.78rem 1.15rem;
+		border-radius: var(--radius-full);
 		text-decoration: none;
 		font-weight: 700;
+		font-size: 0.95rem;
+		transition: transform var(--duration-fast) var(--ease-spring),
+			box-shadow var(--duration-fast) var(--ease-out),
+			background var(--duration-fast) var(--ease-out);
 	}
 
-	.hero-links .primary {
+	.btn-primary {
 		background: var(--accent);
+		color: #fff;
+		box-shadow: 0 4px 14px rgba(20, 77, 59, 0.2);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 20px rgba(20, 77, 59, 0.28);
 		color: #fff;
 	}
 
-	.hero-links .secondary {
-		background: rgba(255, 255, 255, 0.76);
-		border: 1px solid rgba(var(--line), 0.8);
+	.btn-secondary {
+		background: rgba(255, 255, 255, 0.78);
+		border: 1px solid rgba(var(--line), 0.7);
 		color: rgb(var(--gray-dark));
 	}
 
+	.btn-secondary:hover {
+		background: rgba(255, 255, 255, 0.95);
+		transform: translateY(-1px);
+		color: rgb(var(--gray-dark));
+	}
+
+	/* ---- Hero Panel ---- */
 	.hero-panel {
 		padding: 1.35rem;
-		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
-		border: 1px solid rgba(255, 255, 255, 0.9);
+		border-radius: var(--radius-lg);
+		background: rgba(255, 255, 255, 0.65);
+		border: 1px solid rgba(var(--line), 0.3);
 	}
 
 	.panel-label {
-		margin: 0 0 1rem;
-		font-size: 0.74rem;
+		margin: 0 0 var(--space-md);
+		font-size: 0.72rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
 		color: rgb(var(--gray));
@@ -214,67 +246,96 @@ const structuredData = [
 	.hero-stats {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.9rem;
-		margin-bottom: 1rem;
+		gap: 0.75rem;
+		margin-bottom: var(--space-md);
 	}
 
-	.hero-stats div {
-		padding: 0.95rem;
-		border-radius: 18px;
+	.stat-card {
+		padding: 0.9rem;
+		border-radius: var(--radius-md);
 		background: rgba(var(--surface-soft), 0.7);
-		border: 1px solid rgba(var(--line), 0.55);
+		border: 1px solid rgba(var(--line), 0.4);
+		transition: border-color var(--duration-fast) var(--ease-out);
 	}
 
-	.hero-stats span {
+	.stat-card:hover {
+		border-color: rgba(var(--accent-rgb), 0.2);
+	}
+
+	.stat-card span {
 		display: block;
-		font-size: 0.82rem;
+		font-size: 0.78rem;
 		color: rgb(var(--gray));
-		margin-bottom: 0.35rem;
+		margin-bottom: 0.3rem;
 	}
 
-	.hero-stats strong {
+	.stat-card strong {
 		display: block;
 		line-height: 1.25;
 		color: rgb(var(--black));
+		font-size: 0.95rem;
 	}
 
 	.hero-panel ul {
 		margin: 0;
 		padding-left: 1.1rem;
 		color: rgb(var(--gray-dark));
+		font-size: 0.94rem;
+		line-height: 1.7;
 	}
 
+	.hero-panel li {
+		margin-bottom: 0.25rem;
+	}
+
+	/* ---- Sections ---- */
 	.section-heading {
-		margin-bottom: 1rem;
+		margin-bottom: var(--space-md);
+	}
+
+	.section-heading h2 {
+		margin-bottom: 0.3rem;
 	}
 
 	.section-heading p {
 		margin: 0;
 		color: rgb(var(--gray));
+		font-size: 0.98rem;
 	}
 
 	.topic-strip,
 	.featured,
 	section[aria-labelledby='latest-title'] {
-		margin-top: 2.4rem;
+		margin-top: var(--space-2xl);
 	}
 
+	/* ---- Card Grids ---- */
 	.featured-grid,
 	.list-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.1rem;
+		gap: var(--space-md);
 	}
 
 	.card {
 		display: grid;
-		gap: 0.8rem;
+		gap: 0.7rem;
 		padding: 1.15rem;
-		border: 1px solid rgba(255, 255, 255, 0.9);
-		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
+		border: 1px solid rgba(var(--line), 0.3);
+		border-radius: var(--radius-lg);
+		background: rgba(255, 255, 255, 0.7);
+		box-shadow: var(--shadow-sm);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		transition: box-shadow var(--duration-base) var(--ease-out),
+			transform var(--duration-base) var(--ease-out),
+			border-color var(--duration-base) var(--ease-out);
+	}
+
+	.card:hover {
 		box-shadow: var(--shadow);
-		backdrop-filter: blur(14px);
+		transform: translateY(-3px);
+		border-color: rgba(var(--accent-rgb), 0.15);
 	}
 
 	.card a {
@@ -282,34 +343,74 @@ const structuredData = [
 		color: inherit;
 	}
 
-	.card img {
+	.card-image {
+		overflow: hidden;
+		border-radius: var(--radius-md);
+	}
+
+	.card-image img {
 		width: 100%;
 		height: auto;
-		border-radius: 14px;
+		border-radius: var(--radius-md);
+		transition: transform var(--duration-slow) var(--ease-out);
+	}
+
+	.card:hover .card-image img {
+		transform: scale(1.02);
 	}
 
 	.card h3 {
-		margin: 0.2rem 0 0.4rem;
-		font-size: 1.2rem;
+		margin: 0.15rem 0 0.35rem;
+		font-size: 1.15rem;
+		transition: color var(--duration-fast) var(--ease-out);
+	}
+
+	.card:hover h3 {
+		color: var(--accent);
 	}
 
 	.card p {
 		margin: 0;
 	}
 
+	.card-desc {
+		color: rgb(var(--gray));
+		font-size: 0.94rem;
+		line-height: 1.55;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
 	.meta {
-		font-size: 0.92rem;
+		font-size: 0.88rem;
 		color: rgb(var(--gray));
 	}
 
+	/* ---- Responsive ---- */
 	@media (max-width: 900px) {
 		.hero {
 			grid-template-columns: 1fr;
-			padding: 1.35rem;
+			padding: var(--space-lg);
+		}
+
+		.hero h1 {
+			max-width: none;
 		}
 
 		.featured-grid,
 		.list-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.hero {
+			padding: var(--space-md);
+		}
+
+		.hero-stats {
 			grid-template-columns: 1fr;
 		}
 	}

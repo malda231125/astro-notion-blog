@@ -23,15 +23,17 @@ const structuredData = {
 	structuredData={structuredData}
 >
 	<section class="tags-page">
-		<p class="eyebrow">TOPIC HUB</p>
-		<h1>태그별 글 모아보기</h1>
-		<p class="lead">주제별로 쌓인 글을 빠르게 탐색할 수 있도록 태그 허브를 구성했습니다.</p>
+		<div class="tags-header">
+			<p class="eyebrow">TOPIC HUB</p>
+			<h1>태그별 글 모아보기</h1>
+			<p class="lead">주제별로 쌓인 글을 빠르게 탐색할 수 있도록 태그 허브를 구성했습니다.</p>
+		</div>
 
 		<ul class="tag-grid" aria-label="태그 목록">
-			{tags.map((tag) => {
+			{tags.map((tag, i) => {
 				const count = posts.filter((post) => (post.data.tags ?? []).includes(tag)).length;
 				return (
-					<li>
+					<li style={`animation-delay: ${i * 30}ms`}>
 						<a href={getTagUrl(tag)}>
 							<strong>#{tag}</strong>
 							<span>{count}개의 글</span>
@@ -46,26 +48,36 @@ const structuredData = {
 <style>
 	.tags-page {
 		display: grid;
-		gap: 1rem;
+		gap: var(--space-xl);
+	}
+
+	.tags-header {
+		display: grid;
+		gap: 0.75rem;
 	}
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.82rem;
+		font-size: 0.78rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		color: var(--accent);
+	}
+
+	.tags-header h1 {
+		margin: 0;
 	}
 
 	.lead {
-		margin: 0 0 1rem;
+		margin: 0;
 		color: rgb(var(--gray));
+		line-height: 1.65;
 	}
 
 	.tag-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
+		gap: var(--space-md);
 		list-style: none;
 		padding: 0;
 		margin: 0;
@@ -76,26 +88,51 @@ const structuredData = {
 	}
 
 	.tag-grid a {
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		gap: 0.35rem;
-		padding: 1rem;
-		border-radius: 16px;
-		border: 1px solid rgb(var(--gray-light));
-		background: rgba(255, 255, 255, 0.92);
+		padding: var(--space-lg);
+		border-radius: var(--radius-lg);
+		border: 1px solid rgba(var(--line), 0.35);
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: var(--shadow-sm);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
+		transition: box-shadow var(--duration-base) var(--ease-out),
+			transform var(--duration-base) var(--ease-out),
+			border-color var(--duration-base) var(--ease-out);
+	}
+
+	.tag-grid a:hover {
+		box-shadow: var(--shadow);
+		transform: translateY(-3px);
+		border-color: rgba(var(--accent-rgb), 0.2);
+	}
+
+	.tag-grid a:hover strong {
+		color: var(--accent);
 	}
 
 	.tag-grid strong {
-		font-size: 1.05rem;
+		font-size: 1.1rem;
+		color: rgb(var(--black));
+		transition: color var(--duration-fast) var(--ease-out);
 	}
 
 	.tag-grid span {
 		color: rgb(var(--gray));
-		font-size: 0.95rem;
+		font-size: 0.9rem;
 	}
 
 	@media (max-width: 900px) {
+		.tag-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 520px) {
 		.tag-grid {
 			grid-template-columns: 1fr;
 		}
