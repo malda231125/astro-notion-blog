@@ -38,7 +38,7 @@ const structuredData = [
 	structuredData={structuredData}
 >
 	<section class="archive-hero">
-		<p class="eyebrow">BLOG ARCHIVE</p>
+		<div class="archive-badge">BLOG ARCHIVE</div>
 		<h1>{SITE_TITLE} 글 모음</h1>
 		<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
 	</section>
@@ -50,19 +50,25 @@ const structuredData = [
 		</div>
 
 		<div class="grid">
-			{posts.map((post) => (
-				<article class="card">
+			{posts.map((post, i) => (
+				<article class="card" style={`animation-delay: ${i * 60}ms`}>
 					<a href={getPostUrl(post)}>
 						{post.data.heroImage && (
-							<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+							<div class="card-image">
+								<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+							</div>
 						)}
-						<p class="meta">
-							<FormattedDate date={post.data.pubDate} />
-						</p>
-						<h3>{post.data.title}</h3>
-						<p>{post.data.description}</p>
+						<div class="card-body">
+							<p class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<h3>{post.data.title}</h3>
+							<p class="card-desc">{post.data.description}</p>
+						</div>
 					</a>
-					<TagList tags={post.data.tags} />
+					<div class="card-footer">
+						<TagList tags={post.data.tags} />
+					</div>
 				</article>
 			))}
 		</div>
@@ -72,45 +78,65 @@ const structuredData = [
 <style>
 	.archive-hero {
 		display: grid;
-		gap: 1rem;
-		padding: 1rem 0 1.5rem;
+		gap: 0.85rem;
+		padding: 1.5rem 0 2rem;
 	}
 
-	.eyebrow {
-		margin: 0;
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+	.archive-badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: rgba(99, 102, 241, 0.08);
+		border: 1px solid rgba(99, 102, 241, 0.15);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		width: fit-content;
 	}
 
 	.lead,
 	.section-heading p {
 		margin: 0;
 		color: rgb(var(--gray));
+		font-size: 0.95rem;
 	}
 
 	.archive-list {
-		margin-top: 1rem;
+		margin-top: 0.5rem;
 	}
 
 	.section-heading {
-		margin-bottom: 1rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.section-heading h2 {
+		margin-bottom: 0.25rem;
 	}
 
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1rem;
+		gap: 1.15rem;
 	}
 
 	.card {
-		display: grid;
-		gap: 0.8rem;
-		padding: 1rem;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 18px;
-		background: rgba(255, 255, 255, 0.9);
+		display: flex;
+		flex-direction: column;
+		border: 1px solid rgba(var(--line), 0.35);
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.8);
+		box-shadow: var(--shadow);
+		overflow: hidden;
+		transition: box-shadow var(--transition-normal), transform var(--transition-normal), border-color var(--transition-normal);
+		animation: fadeInUp 0.5s var(--ease-out) both;
+	}
+
+	.card:hover {
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-3px);
+		border-color: rgba(99, 102, 241, 0.2);
 	}
 
 	.card a {
@@ -118,22 +144,50 @@ const structuredData = [
 		color: inherit;
 	}
 
-	.card img {
+	.card-image {
+		overflow: hidden;
+	}
+
+	.card-image img {
 		width: 100%;
 		height: auto;
-		border-radius: 14px;
+		border-radius: 0;
+		transition: transform 0.5s var(--ease-out);
+	}
+
+	.card:hover .card-image img {
+		transform: scale(1.03);
+	}
+
+	.card-body {
+		padding: 1rem 1.15rem 0.5rem;
 	}
 
 	.card h3 {
 		margin: 0.2rem 0 0.4rem;
+		font-size: 1.1rem;
+		line-height: 1.35;
+		transition: color var(--transition-fast);
 	}
 
-	.card p {
+	.card:hover h3 {
+		color: var(--accent);
+	}
+
+	.card-desc {
 		margin: 0;
+		font-size: 0.92rem;
+		color: rgb(var(--gray));
+		line-height: 1.55;
+	}
+
+	.card-footer {
+		padding: 0.65rem 1.15rem 1rem;
+		margin-top: auto;
 	}
 
 	.meta {
-		font-size: 0.92rem;
+		font-size: 0.85rem;
 		color: rgb(var(--gray));
 	}
 

@@ -18,7 +18,7 @@ const structuredData = {
 	structuredData={structuredData}
 >
 	<section class="about-page">
-		<p class="eyebrow">ABOUT</p>
+		<div class="about-badge">ABOUT</div>
 		<h1>OpenClaw 인사이트는 무엇을 다루는 블로그인가</h1>
 		<p class="lead">
 			이 블로그는 OpenClaw, AI 에이전트, 자동화, 홈서버 운영, 비용 최적화 같은 주제를
@@ -26,7 +26,10 @@ const structuredData = {
 		</p>
 
 		<div class="grid">
-			<section>
+			<section class="info-card">
+				<div class="card-icon">
+					<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 4h14M3 8h10M3 12h14M3 16h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+				</div>
 				<h2>주요 주제</h2>
 				<ul>
 					<li>OpenClaw 설치와 운영</li>
@@ -37,7 +40,10 @@ const structuredData = {
 				</ul>
 			</section>
 
-			<section>
+			<section class="info-card">
+				<div class="card-icon">
+					<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M2 10h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/></svg>
+				</div>
 				<h2>운영 방식</h2>
 				<p>
 					Notion에서 작성한 글을 Astro 정적 블로그로 동기화해 발행합니다. 기술 메모,
@@ -47,7 +53,10 @@ const structuredData = {
 			</section>
 		</div>
 
-		<section class="note">
+		<section class="note-card">
+			<div class="card-icon">
+				<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+			</div>
 			<h2>현재 상태</h2>
 			<p>
 				아직 콘텐츠를 축적하는 단계이기 때문에 구조와 SEO를 계속 손보는 중입니다. 글 수와
@@ -63,42 +72,81 @@ const structuredData = {
 		gap: 2rem;
 	}
 
-	.eyebrow {
-		margin: 0;
-		font-size: 0.85rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+	.about-badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: rgba(99, 102, 241, 0.08);
+		border: 1px solid rgba(99, 102, 241, 0.15);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		width: fit-content;
 	}
 
 	.lead {
-		font-size: 1.1rem;
-		color: rgb(var(--gray-dark));
+		font-size: 1.08rem;
+		color: rgb(var(--gray));
 		max-width: 760px;
+		line-height: 1.7;
 	}
 
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.2rem;
+		gap: 1.15rem;
 	}
 
-	.grid section,
-	.note {
-		padding: 1.25rem;
-		border: 1px solid rgb(var(--gray-light));
+	.info-card,
+	.note-card {
+		padding: 1.5rem;
+		border: 1px solid rgba(var(--line), 0.35);
 		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.85);
+		background: rgba(255, 255, 255, 0.8);
+		box-shadow: var(--shadow);
+		transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+	}
+
+	.info-card:hover,
+	.note-card:hover {
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-2px);
+	}
+
+	.card-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.2rem;
+		height: 2.2rem;
+		border-radius: 10px;
+		background: rgba(99, 102, 241, 0.08);
+		color: var(--accent);
+		margin-bottom: 0.85rem;
 	}
 
 	.grid h2,
-	.note h2 {
+	.note-card h2 {
 		margin-bottom: 0.7rem;
+		font-size: 1.25rem;
 	}
 
 	.grid ul {
 		padding-left: 1.15rem;
 		margin: 0;
+		line-height: 1.75;
+	}
+
+	.grid li {
+		margin: 0.25rem 0;
+	}
+
+	.info-card p,
+	.note-card p {
+		color: rgb(var(--gray-dark));
+		line-height: 1.7;
 	}
 
 	@media (max-width: 720px) {

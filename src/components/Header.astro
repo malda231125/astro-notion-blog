@@ -6,21 +6,25 @@ import HeaderLink from './HeaderLink.astro';
 <header>
 	<nav aria-label="주요 내비게이션">
 		<a class="brand" href="/" aria-label={`${SITE_TITLE} 홈`}>
-			<span class="brand-mark">OC</span>
+			<span class="brand-mark">
+				<span class="brand-icon">OC</span>
+			</span>
 			<span class="brand-copy">
 				<strong>OpenClaw 인사이트</strong>
 				<span>AI 에이전트 운영 아카이브</span>
 			</span>
 		</a>
-		<div class="internal-links">
-			<HeaderLink href="/">홈</HeaderLink>
-			<HeaderLink href="/blog">블로그</HeaderLink>
-			<HeaderLink href="/tags">태그</HeaderLink>
-			<HeaderLink href="/about">소개</HeaderLink>
-		</div>
-		<div class="external-links">
-			<a href="/rss.xml">RSS</a>
-			<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+		<div class="nav-links">
+			<div class="internal-links">
+				<HeaderLink href="/">홈</HeaderLink>
+				<HeaderLink href="/blog">블로그</HeaderLink>
+				<HeaderLink href="/tags">태그</HeaderLink>
+				<HeaderLink href="/about">소개</HeaderLink>
+			</div>
+			<div class="external-links">
+				<a href="/rss.xml" class="ext-link">RSS</a>
+				<a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" class="ext-link github-link">GitHub</a>
+			</div>
 		</div>
 	</nav>
 </header>
@@ -29,94 +33,165 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		position: sticky;
 		top: 0;
-		z-index: 20;
-		padding: 0 1rem;
-		background: rgba(255, 252, 247, 0.82);
-		backdrop-filter: blur(18px);
-		border-bottom: 1px solid rgba(var(--line), 0.55);
+		z-index: 50;
+		padding: 0 1.25rem;
+		background: rgba(250, 250, 255, 0.78);
+		backdrop-filter: blur(20px) saturate(1.4);
+		-webkit-backdrop-filter: blur(20px) saturate(1.4);
+		border-bottom: 1px solid rgba(var(--line), 0.4);
+		transition: background 0.3s ease, box-shadow 0.3s ease;
 	}
 
 	nav {
-		max-width: 1120px;
+		max-width: 1140px;
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.95rem 0;
+		gap: 1.5rem;
+		padding: 0.85rem 0;
 	}
 
 	.brand {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.85rem;
+		gap: 0.75rem;
 		text-decoration: none;
+		transition: opacity var(--transition-fast);
+	}
+
+	.brand:hover {
+		opacity: 0.85;
 	}
 
 	.brand-mark {
+		position: relative;
 		display: grid;
 		place-items: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 999px;
+		width: 2.6rem;
+		height: 2.6rem;
+	}
+
+	.brand-icon {
+		display: grid;
+		place-items: center;
+		width: 100%;
+		height: 100%;
+		border-radius: 12px;
 		background: linear-gradient(135deg, var(--accent), var(--accent-dark));
 		color: #fff;
 		font-weight: 800;
-		letter-spacing: 0.04em;
-		box-shadow: 0 12px 24px rgba(18, 53, 44, 0.16);
+		font-size: 0.82rem;
+		letter-spacing: 0.06em;
+		box-shadow:
+			0 4px 12px rgba(99, 102, 241, 0.25),
+			0 1px 3px rgba(99, 102, 241, 0.15);
+		transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+	}
+
+	.brand:hover .brand-icon {
+		transform: scale(1.06);
+		box-shadow:
+			0 6px 18px rgba(99, 102, 241, 0.3),
+			0 2px 6px rgba(99, 102, 241, 0.2);
 	}
 
 	.brand-copy {
 		display: grid;
-		line-height: 1.08;
+		line-height: 1.15;
 	}
 
 	.brand-copy strong {
 		color: rgb(var(--black));
-		font-size: 0.98rem;
+		font-size: 0.95rem;
+		font-weight: 800;
 	}
 
 	.brand-copy span {
 		color: rgb(var(--gray));
-		font-size: 0.88rem;
+		font-size: 0.8rem;
+	}
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.internal-links,
 	.external-links {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.25rem;
 	}
 
 	.internal-links :global(a),
 	.external-links a {
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
+		font-size: 0.92rem;
 		text-decoration: none;
+		padding: 0.4rem 0.7rem;
+		border-radius: 8px;
+		transition: background var(--transition-fast), color var(--transition-fast);
 	}
 
-	.external-links a {
-		font-size: 0.95rem;
+	.internal-links :global(a):hover,
+	.external-links a:hover {
+		background: rgba(var(--gray-light), 0.5);
+		color: rgb(var(--black));
+	}
+
+	.internal-links :global(a.active) {
+		background: rgba(99, 102, 241, 0.08);
+		color: var(--accent);
+	}
+
+	.external-links {
+		padding-left: 0.5rem;
+		border-left: 1px solid rgba(var(--line), 0.5);
+	}
+
+	.ext-link {
+		font-size: 0.88rem !important;
+		color: rgb(var(--gray)) !important;
 	}
 
 	@media (max-width: 860px) {
 		nav {
 			flex-wrap: wrap;
 			justify-content: center;
+			gap: 0.75rem;
 		}
 
 		.brand {
 			width: 100%;
 			justify-content: center;
 		}
+
+		.nav-links {
+			width: 100%;
+			justify-content: center;
+		}
 	}
 
 	@media (max-width: 560px) {
+		.nav-links {
+			flex-wrap: wrap;
+		}
+
 		.internal-links,
 		.external-links {
 			width: 100%;
 			justify-content: center;
 			flex-wrap: wrap;
+		}
+
+		.external-links {
+			border-left: none;
+			padding-left: 0;
+			padding-top: 0.25rem;
+			border-top: 1px solid rgba(var(--line), 0.3);
 		}
 	}
 </style>

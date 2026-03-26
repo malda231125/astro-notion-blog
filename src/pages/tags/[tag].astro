@@ -53,21 +53,25 @@ const structuredData = [
 	structuredData={structuredData}
 >
 	<section class="tag-page">
-		<p class="eyebrow">TAG ARCHIVE</p>
+		<div class="tag-badge">TAG ARCHIVE</div>
 		<h1>#{tag}</h1>
 		<p class="lead">이 태그와 관련된 글 {filteredPosts.length}개를 모았습니다.</p>
 
 		<div class="post-list">
-			{filteredPosts.map((post) => (
-				<article class="card">
+			{filteredPosts.map((post, i) => (
+				<article class="card" style={`animation-delay: ${i * 60}ms`}>
 					<a href={getPostUrl(post)}>
-						<p class="meta">
-							<FormattedDate date={post.data.pubDate} />
-						</p>
-						<h2>{post.data.title}</h2>
-						<p>{post.data.description}</p>
+						<div class="card-body">
+							<p class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<h2>{post.data.title}</h2>
+							<p class="card-desc">{post.data.description}</p>
+						</div>
 					</a>
-					<TagList tags={post.data.tags} />
+					<div class="card-footer">
+						<TagList tags={post.data.tags} />
+					</div>
 				</article>
 			))}
 		</div>
@@ -80,17 +84,24 @@ const structuredData = [
 		gap: 1rem;
 	}
 
-	.eyebrow {
-		margin: 0;
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+	.tag-badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: rgba(99, 102, 241, 0.08);
+		border: 1px solid rgba(99, 102, 241, 0.15);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		width: fit-content;
 	}
 
 	.lead {
-		margin: 0 0 1rem;
+		margin: 0 0 1.5rem;
 		color: rgb(var(--gray));
+		font-size: 0.95rem;
 	}
 
 	.post-list {
@@ -99,12 +110,21 @@ const structuredData = [
 	}
 
 	.card {
-		display: grid;
-		gap: 0.8rem;
-		padding: 1rem;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 18px;
-		background: rgba(255, 255, 255, 0.92);
+		display: flex;
+		flex-direction: column;
+		border: 1px solid rgba(var(--line), 0.35);
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.8);
+		box-shadow: var(--shadow);
+		overflow: hidden;
+		transition: box-shadow var(--transition-normal), transform var(--transition-normal), border-color var(--transition-normal);
+		animation: fadeInUp 0.5s var(--ease-out) both;
+	}
+
+	.card:hover {
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-3px);
+		border-color: rgba(99, 102, 241, 0.2);
 	}
 
 	.card a {
@@ -112,17 +132,35 @@ const structuredData = [
 		color: inherit;
 	}
 
-	.card h2 {
-		margin: 0.1rem 0 0.35rem;
-		font-size: 1.35rem;
+	.card-body {
+		padding: 1.15rem 1.25rem 0.5rem;
 	}
 
-	.card p {
+	.card h2 {
+		margin: 0.15rem 0 0.4rem;
+		font-size: 1.3rem;
+		line-height: 1.35;
+		transition: color var(--transition-fast);
+	}
+
+	.card:hover h2 {
+		color: var(--accent);
+	}
+
+	.card-desc {
 		margin: 0;
+		font-size: 0.92rem;
+		color: rgb(var(--gray));
+		line-height: 1.55;
+	}
+
+	.card-footer {
+		padding: 0.65rem 1.25rem 1.1rem;
+		margin-top: auto;
 	}
 
 	.meta {
-		font-size: 0.92rem;
+		font-size: 0.85rem;
 		color: rgb(var(--gray));
 	}
 </style>
