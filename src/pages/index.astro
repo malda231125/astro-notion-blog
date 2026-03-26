@@ -44,33 +44,36 @@ const structuredData = [
 	keywords={['OpenClaw', 'AI 에이전트', '자동화', '홈서버', 'SEO']}
 	structuredData={structuredData}
 >
-	<section class="hero card-surface">
-		<div class="hero-copy">
-			<p class="eyebrow">OPENCLAW · AI AGENTS · AUTOMATION</p>
-			<h1>OpenClaw와 AI 에이전트 운영 인사이트를 축적하는 블로그</h1>
+	<section class="hero">
+		<div class="hero-content">
+			<p class="eyebrow">OPENCLAW / AI AGENTS / AUTOMATION</p>
+			<h1>AI 에이전트 운영 인사이트를 축적하는 아카이브</h1>
 			<p class="lead">{SITE_SECTION_DESCRIPTION}</p>
-			<div class="hero-links">
-				<a class="primary" href="/blog">전체 글 보기</a>
-				<a class="secondary" href="/about">블로그 소개</a>
+			<div class="hero-actions">
+				<a class="btn-primary" href="/blog">
+					전체 글 보기
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+				</a>
+				<a class="btn-secondary" href="/about">블로그 소개</a>
 			</div>
 		</div>
-		<aside class="hero-panel" aria-label="블로그 개요">
-			<p class="panel-label">EDITORIAL FOCUS</p>
-			<div class="hero-stats">
-				<div>
-					<span>대표 주제</span>
-					<strong>OpenClaw 운영</strong>
-				</div>
-				<div>
-					<span>콘텐츠 형태</span>
-					<strong>트렌드 · 설치 · 배포</strong>
-				</div>
+		<aside class="hero-aside" aria-label="블로그 개요">
+			<div class="aside-block">
+				<p class="aside-label">대표 주제</p>
+				<p class="aside-value">OpenClaw 운영</p>
 			</div>
-			<ul>
-				<li>릴리즈와 생태계 변화를 빠르게 정리합니다.</li>
-				<li>실사용 운영 관점에서 설치·배포·자동화를 아카이브합니다.</li>
-				<li>검색과 재탐색이 쉬운 구조로 태그/시리즈를 정리합니다.</li>
-			</ul>
+			<div class="aside-block">
+				<p class="aside-label">콘텐츠 형태</p>
+				<p class="aside-value">트렌드 / 설치 / 배포</p>
+			</div>
+			<div class="aside-list">
+				<p class="aside-label">EDITORIAL FOCUS</p>
+				<ul>
+					<li>릴리즈와 생태계 변화를 빠르게 정리합니다.</li>
+					<li>실사용 운영 관점에서 설치, 배포, 자동화를 아카이브합니다.</li>
+					<li>검색과 재탐색이 쉬운 구조로 태그/시리즈를 정리합니다.</li>
+				</ul>
+			</div>
 		</aside>
 	</section>
 
@@ -89,20 +92,24 @@ const structuredData = [
 			<h2 id="featured-title">대표 글</h2>
 			<p>먼저 읽기 좋은 최근 글과 운영 기록입니다.</p>
 		</div>
-		<div class="featured-grid">
-			{featuredPosts.map((post) => (
-				<article class="card featured-card">
+		<div class="featured-grid stagger-in">
+			{featuredPosts.map((post, i) => (
+				<article class={`featured-item ${i === 0 ? 'featured-primary' : ''}`}>
 					<a href={getPostUrl(post)}>
 						{post.data.heroImage && (
 							<Image width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
 						)}
-						<p class="meta">
-							<FormattedDate date={post.data.pubDate} />
-						</p>
-						<h3>{post.data.title}</h3>
-						<p>{post.data.description}</p>
+						<div class="item-body">
+							<p class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+							<h3>{post.data.title}</h3>
+							<p class="desc">{post.data.description}</p>
+						</div>
 					</a>
-					<TagList tags={post.data.tags} />
+					<div class="item-tags">
+						<TagList tags={post.data.tags} />
+					</div>
 				</article>
 			))}
 		</div>
@@ -114,17 +121,21 @@ const structuredData = [
 				<h2 id="latest-title">최신 업데이트</h2>
 				<p>릴리즈 분석, 트렌드 정리, 운영 메모를 최신순으로 모았습니다.</p>
 			</div>
-			<div class="list-grid">
+			<div class="latest-list">
 				{latestPosts.map((post) => (
-					<article class="card compact-card">
+					<article class="latest-item">
 						<a href={getPostUrl(post)}>
-							<p class="meta">
-								<FormattedDate date={post.data.pubDate} />
-							</p>
-							<h3>{post.data.title}</h3>
-							<p>{post.data.description}</p>
+							<div class="latest-content">
+								<p class="meta">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+								<h3>{post.data.title}</h3>
+								<p class="desc">{post.data.description}</p>
+							</div>
 						</a>
-						<TagList tags={post.data.tags} />
+						<div class="item-tags">
+							<TagList tags={post.data.tags} />
+						</div>
 					</article>
 				))}
 			</div>
@@ -133,184 +144,301 @@ const structuredData = [
 </PageLayout>
 
 <style>
+	/* Hero: asymmetric split layout (DESIGN_VARIANCE: 8) */
 	.hero {
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-		gap: 2rem;
+		grid-template-columns: 1.4fr 1fr;
+		gap: 3rem;
 		align-items: start;
-		padding: 2rem;
-		border-radius: 30px;
+		padding: 1rem 0 0;
 	}
 
-	.hero-copy {
+	.hero-content {
 		display: grid;
-		gap: 1rem;
+		gap: 1.15rem;
+		padding-top: 0.5rem;
 	}
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
 		color: var(--accent);
 	}
 
 	.hero h1 {
-		max-width: 14ch;
+		max-width: 16ch;
 		margin: 0;
-		font-size: clamp(2.8rem, 4.8vw, 4.4rem);
+		font-size: clamp(2.4rem, 4.5vw, 3.8rem);
 		line-height: 1.06;
-	}
-
-	.lead {
-		max-width: 62ch;
-		margin: 0;
-		font-size: 1.08rem;
-		color: rgb(var(--gray-dark));
-	}
-
-	.hero-links {
-		display: flex;
-		gap: 0.8rem;
-		flex-wrap: wrap;
-	}
-
-	.hero-links a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.82rem 1rem;
-		border-radius: 999px;
-		text-decoration: none;
-		font-weight: 700;
-	}
-
-	.hero-links .primary {
-		background: var(--accent);
-		color: #fff;
-	}
-
-	.hero-links .secondary {
-		background: rgba(255, 255, 255, 0.76);
-		border: 1px solid rgba(var(--line), 0.8);
-		color: rgb(var(--gray-dark));
-	}
-
-	.hero-panel {
-		padding: 1.35rem;
-		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
-		border: 1px solid rgba(255, 255, 255, 0.9);
-	}
-
-	.panel-label {
-		margin: 0 0 1rem;
-		font-size: 0.74rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
-	}
-
-	.hero-stats {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.9rem;
-		margin-bottom: 1rem;
-	}
-
-	.hero-stats div {
-		padding: 0.95rem;
-		border-radius: 18px;
-		background: rgba(var(--surface-soft), 0.7);
-		border: 1px solid rgba(var(--line), 0.55);
-	}
-
-	.hero-stats span {
-		display: block;
-		font-size: 0.82rem;
-		color: rgb(var(--gray));
-		margin-bottom: 0.35rem;
-	}
-
-	.hero-stats strong {
-		display: block;
-		line-height: 1.25;
+		letter-spacing: -0.04em;
 		color: rgb(var(--black));
 	}
 
-	.hero-panel ul {
+	.lead {
+		max-width: 54ch;
 		margin: 0;
-		padding-left: 1.1rem;
+		font-size: 1.02rem;
+		color: rgb(var(--gray));
+		line-height: 1.65;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+		padding-top: 0.35rem;
+	}
+
+	.btn-primary,
+	.btn-secondary {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.7rem 1.15rem;
+		border-radius: 10px;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.9rem;
+		transition: var(--transition-base);
+	}
+
+	.btn-primary {
+		background: var(--accent);
+		color: #fff;
+		border: 1px solid var(--accent);
+	}
+
+	.btn-primary:hover {
+		background: var(--accent-dark);
+		border-color: var(--accent-dark);
+		color: #fff;
+	}
+
+	.btn-primary:active {
+		transform: translateY(1px) scale(0.98);
+	}
+
+	.btn-secondary {
+		background: transparent;
+		border: 1px solid rgba(var(--line), 0.7);
 		color: rgb(var(--gray-dark));
 	}
 
+	.btn-secondary:hover {
+		border-color: rgba(var(--line), 1);
+		background: rgba(var(--gray-light), 0.25);
+		color: rgb(var(--black));
+	}
+
+	.btn-secondary:active {
+		transform: translateY(1px) scale(0.98);
+	}
+
+	/* Hero aside */
+	.hero-aside {
+		display: grid;
+		gap: 0;
+		border: 1px solid rgba(var(--line), 0.45);
+		border-radius: 16px;
+		background: #fff;
+		overflow: hidden;
+	}
+
+	.aside-block {
+		padding: 1rem 1.15rem;
+		border-bottom: 1px solid rgba(var(--line), 0.35);
+	}
+
+	.aside-label {
+		margin: 0 0 0.25rem;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		color: rgb(var(--gray));
+		text-transform: uppercase;
+	}
+
+	.aside-value {
+		margin: 0;
+		font-weight: 600;
+		color: rgb(var(--black));
+		font-size: 0.95rem;
+	}
+
+	.aside-list {
+		padding: 1rem 1.15rem;
+	}
+
+	.aside-list ul {
+		margin: 0;
+		padding-left: 1rem;
+		color: rgb(var(--gray-dark));
+		font-size: 0.88rem;
+		line-height: 1.65;
+	}
+
+	.aside-list li {
+		margin: 0.3rem 0;
+	}
+
+	/* Sections */
 	.section-heading {
-		margin-bottom: 1rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.section-heading h2 {
+		margin-bottom: 0.25rem;
 	}
 
 	.section-heading p {
 		margin: 0;
 		color: rgb(var(--gray));
+		font-size: 0.95rem;
 	}
 
 	.topic-strip,
 	.featured,
 	section[aria-labelledby='latest-title'] {
-		margin-top: 2.4rem;
+		margin-top: 3rem;
 	}
 
-	.featured-grid,
-	.list-grid {
+	/* Featured grid: asymmetric 2-column (ban 3-col equal) */
+	.featured-grid {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.1rem;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 1rem;
 	}
 
-	.card {
+	.featured-item {
 		display: grid;
-		gap: 0.8rem;
-		padding: 1.15rem;
-		border: 1px solid rgba(255, 255, 255, 0.9);
-		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.72);
+		gap: 0;
+		border: 1px solid rgba(var(--line), 0.4);
+		border-radius: 14px;
+		background: #fff;
+		overflow: hidden;
+		transition: var(--transition-base);
+	}
+
+	.featured-item:hover {
+		border-color: rgba(var(--line), 0.7);
 		box-shadow: var(--shadow);
-		backdrop-filter: blur(14px);
 	}
 
-	.card a {
+	.featured-primary {
+		grid-row: span 2;
+	}
+
+	.featured-item a {
 		text-decoration: none;
 		color: inherit;
 	}
 
-	.card img {
+	.featured-item img {
 		width: 100%;
 		height: auto;
-		border-radius: 14px;
+		border-radius: 0;
+		display: block;
 	}
 
-	.card h3 {
-		margin: 0.2rem 0 0.4rem;
-		font-size: 1.2rem;
+	.item-body {
+		padding: 1rem 1.15rem 0.75rem;
 	}
 
-	.card p {
+	.item-tags {
+		padding: 0 1.15rem 1rem;
+	}
+
+	.featured-item h3 {
+		margin: 0.15rem 0 0.4rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	.featured-primary h3 {
+		font-size: 1.3rem;
+	}
+
+	.desc {
 		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		line-height: 1.55;
 	}
 
 	.meta {
-		font-size: 0.92rem;
+		font-size: 0.82rem;
 		color: rgb(var(--gray));
+		margin: 0;
+	}
+
+	/* Latest list: border-separated rows instead of cards */
+	.latest-list {
+		display: grid;
+		gap: 0;
+	}
+
+	.latest-item {
+		padding: 1.15rem 0;
+		border-bottom: 1px solid rgba(var(--line), 0.4);
+		transition: var(--transition-fast);
+	}
+
+	.latest-item:first-child {
+		border-top: 1px solid rgba(var(--line), 0.4);
+	}
+
+	.latest-item:hover {
+		background: rgba(var(--gray-light), 0.15);
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
+		border-radius: 10px;
+	}
+
+	.latest-item a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.latest-content h3 {
+		margin: 0.1rem 0 0.3rem;
+		font-size: 1.05rem;
+		font-weight: 600;
+	}
+
+	.latest-content .desc {
+		max-width: 65ch;
+	}
+
+	.item-tags {
+		margin-top: 0.5rem;
+	}
+
+	.latest-item .item-tags {
+		padding: 0;
 	}
 
 	@media (max-width: 900px) {
 		.hero {
 			grid-template-columns: 1fr;
-			padding: 1.35rem;
+			gap: 1.5rem;
+			padding: 0;
 		}
 
-		.featured-grid,
-		.list-grid {
+		.featured-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.featured-primary {
+			grid-row: auto;
+		}
+	}
+
+	@media (max-width: 560px) {
+		.hero h1 {
+			font-size: 2rem;
+			max-width: 100%;
 		}
 	}
 </style>

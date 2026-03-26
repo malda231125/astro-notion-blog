@@ -24,7 +24,7 @@ const { tags = [] } = Astro.props;
 	.tag-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.55rem;
+		gap: 0.4rem;
 		list-style: none;
 		padding: 0;
 		margin: 0;
@@ -37,17 +37,18 @@ const { tags = [] } = Astro.props;
 	.tag-list a {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.35rem 0.7rem;
-		border-radius: 999px;
-		background: rgba(var(--gray-light), 0.8);
-		color: rgb(var(--gray-dark));
+		padding: 0.25rem 0.6rem;
+		border-radius: 6px;
+		background: rgba(var(--gray-light), 0.45);
+		color: rgb(var(--gray));
 		text-decoration: none;
-		font-size: 0.92rem;
-		font-weight: 600;
+		font-size: 0.82rem;
+		font-weight: 500;
+		transition: var(--transition-fast);
 	}
 
 	.tag-list a:hover {
-		background: rgba(var(--gray-light), 1);
+		background: rgba(var(--gray-light), 0.75);
 		color: rgb(var(--black));
 	}
 </style>

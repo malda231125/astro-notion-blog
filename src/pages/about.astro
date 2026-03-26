@@ -18,15 +18,17 @@ const structuredData = {
 	structuredData={structuredData}
 >
 	<section class="about-page">
-		<p class="eyebrow">ABOUT</p>
-		<h1>OpenClaw 인사이트는 무엇을 다루는 블로그인가</h1>
-		<p class="lead">
-			이 블로그는 OpenClaw, AI 에이전트, 자동화, 홈서버 운영, 비용 최적화 같은 주제를
-			실무 관점에서 기록하고 정리하기 위해 운영됩니다.
-		</p>
+		<div class="about-header">
+			<p class="eyebrow">ABOUT</p>
+			<h1>OpenClaw 인사이트는 무엇을 다루는 블로그인가</h1>
+			<p class="lead">
+				이 블로그는 OpenClaw, AI 에이전트, 자동화, 홈서버 운영, 비용 최적화 같은 주제를
+				실무 관점에서 기록하고 정리하기 위해 운영됩니다.
+			</p>
+		</div>
 
-		<div class="grid">
-			<section>
+		<div class="about-grid">
+			<section class="about-block">
 				<h2>주요 주제</h2>
 				<ul>
 					<li>OpenClaw 설치와 운영</li>
@@ -37,7 +39,7 @@ const structuredData = {
 				</ul>
 			</section>
 
-			<section>
+			<section class="about-block">
 				<h2>운영 방식</h2>
 				<p>
 					Notion에서 작성한 글을 Astro 정적 블로그로 동기화해 발행합니다. 기술 메모,
@@ -47,7 +49,7 @@ const structuredData = {
 			</section>
 		</div>
 
-		<section class="note">
+		<section class="about-note">
 			<h2>현재 상태</h2>
 			<p>
 				아직 콘텐츠를 축적하는 단계이기 때문에 구조와 SEO를 계속 손보는 중입니다. 글 수와
@@ -60,50 +62,95 @@ const structuredData = {
 <style>
 	.about-page {
 		display: grid;
-		gap: 2rem;
+		gap: 2.5rem;
+	}
+
+	.about-header {
+		display: grid;
+		gap: 0.75rem;
 	}
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.85rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		color: var(--accent);
+	}
+
+	h1 {
+		max-width: 20ch;
 	}
 
 	.lead {
-		font-size: 1.1rem;
-		color: rgb(var(--gray-dark));
-		max-width: 760px;
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.2rem;
-	}
-
-	.grid section,
-	.note {
-		padding: 1.25rem;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.85);
-	}
-
-	.grid h2,
-	.note h2 {
-		margin-bottom: 0.7rem;
-	}
-
-	.grid ul {
-		padding-left: 1.15rem;
+		font-size: 1.02rem;
+		color: rgb(var(--gray));
+		max-width: 65ch;
+		line-height: 1.65;
 		margin: 0;
 	}
 
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 1rem;
+	}
+
+	.about-block {
+		padding: 1.25rem 1.35rem;
+		border: 1px solid rgba(var(--line), 0.4);
+		border-radius: 14px;
+		background: #fff;
+	}
+
+	.about-block h2 {
+		margin-bottom: 0.65rem;
+		font-size: 1.15rem;
+		font-weight: 600;
+	}
+
+	.about-block ul {
+		padding-left: 1.1rem;
+		margin: 0;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95rem;
+		line-height: 1.7;
+	}
+
+	.about-block p {
+		margin: 0;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95rem;
+		line-height: 1.7;
+	}
+
+	.about-note {
+		padding: 1.25rem 1.35rem;
+		border-top: 2px solid var(--accent);
+		border-radius: 0 0 14px 14px;
+		background: rgba(var(--surface-soft), 0.5);
+	}
+
+	.about-note h2 {
+		margin-bottom: 0.5rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	.about-note p {
+		margin: 0;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95rem;
+		line-height: 1.7;
+	}
+
 	@media (max-width: 720px) {
-		.grid {
+		.about-grid {
 			grid-template-columns: 1fr;
+		}
+
+		h1 {
+			max-width: 100%;
 		}
 	}
 </style>

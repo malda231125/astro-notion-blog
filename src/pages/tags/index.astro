@@ -23,11 +23,13 @@ const structuredData = {
 	structuredData={structuredData}
 >
 	<section class="tags-page">
-		<p class="eyebrow">TOPIC HUB</p>
-		<h1>태그별 글 모아보기</h1>
-		<p class="lead">주제별로 쌓인 글을 빠르게 탐색할 수 있도록 태그 허브를 구성했습니다.</p>
+		<div class="tags-header">
+			<p class="eyebrow">TOPIC HUB</p>
+			<h1>태그별 글 모아보기</h1>
+			<p class="lead">주제별로 쌓인 글을 빠르게 탐색할 수 있도록 태그 허브를 구성했습니다.</p>
+		</div>
 
-		<ul class="tag-grid" aria-label="태그 목록">
+		<ul class="tag-grid stagger-in" aria-label="태그 목록">
 			{tags.map((tag) => {
 				const count = posts.filter((post) => (post.data.tags ?? []).includes(tag)).length;
 				return (
@@ -46,26 +48,38 @@ const structuredData = {
 <style>
 	.tags-page {
 		display: grid;
-		gap: 1rem;
+		gap: 2rem;
+	}
+
+	.tags-header {
+		display: grid;
+		gap: 0.75rem;
 	}
 
 	.eyebrow {
 		margin: 0;
-		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: rgb(var(--gray));
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		color: var(--accent);
+	}
+
+	h1 {
+		max-width: 20ch;
 	}
 
 	.lead {
-		margin: 0 0 1rem;
+		margin: 0;
 		color: rgb(var(--gray));
+		font-size: 0.95rem;
+		max-width: 55ch;
 	}
 
+	/* 2-column asymmetric layout for tags */
 	.tag-grid {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 0.75rem;
 		list-style: none;
 		padding: 0;
 		margin: 0;
@@ -76,26 +90,39 @@ const structuredData = {
 	}
 
 	.tag-grid a {
-		display: grid;
-		gap: 0.35rem;
-		padding: 1rem;
-		border-radius: 16px;
-		border: 1px solid rgb(var(--gray-light));
-		background: rgba(255, 255, 255, 0.92);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.85rem 1.1rem;
+		border-radius: 12px;
+		border: 1px solid rgba(var(--line), 0.4);
+		background: #fff;
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
+		transition: var(--transition-base);
+	}
+
+	.tag-grid a:hover {
+		border-color: rgba(var(--line), 0.7);
+		box-shadow: var(--shadow);
+		color: rgb(var(--black));
+	}
+
+	.tag-grid a:active {
+		transform: translateY(1px) scale(0.98);
 	}
 
 	.tag-grid strong {
-		font-size: 1.05rem;
+		font-size: 0.98rem;
+		font-weight: 600;
 	}
 
 	.tag-grid span {
 		color: rgb(var(--gray));
-		font-size: 0.95rem;
+		font-size: 0.85rem;
 	}
 
-	@media (max-width: 900px) {
+	@media (max-width: 640px) {
 		.tag-grid {
 			grid-template-columns: 1fr;
 		}
