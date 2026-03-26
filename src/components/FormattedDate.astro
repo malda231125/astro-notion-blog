@@ -4,14 +4,13 @@ interface Props {
 }
 
 const { date } = Astro.props;
+const formatted = new Intl.DateTimeFormat('ko-KR', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+}).format(date);
 ---
 
 <time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+	{formatted}
 </time>

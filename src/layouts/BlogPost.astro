@@ -137,6 +137,15 @@ const breadcrumbJsonLd = {
 				color: rgb(var(--gray-dark));
 				text-decoration: none;
 				font-weight: 600;
+				transition: color 0.15s ease;
+			}
+			.breadcrumbs a:hover {
+				color: var(--accent);
+			}
+			.breadcrumbs a:focus-visible {
+				outline: none;
+				box-shadow: var(--focus-ring);
+				border-radius: 4px;
 			}
 			.title {
 				margin-bottom: 1.4rem;
@@ -200,6 +209,20 @@ const breadcrumbJsonLd = {
 				background: rgba(255, 255, 255, 0.74);
 				box-shadow: var(--shadow);
 				backdrop-filter: blur(12px);
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+			}
+			.post-nav a:hover .post-nav-card,
+			.related-list a:hover .related-card {
+				transform: translateY(-2px);
+				box-shadow:
+					0 14px 36px rgba(36, 31, 25, 0.09),
+					0 28px 68px rgba(36, 31, 25, 0.11);
+			}
+			.post-nav a:focus-visible,
+			.related-list a:focus-visible {
+				outline: none;
+				box-shadow: var(--focus-ring);
+				border-radius: 22px;
 			}
 			.post-nav-label {
 				display: block;
@@ -260,8 +283,9 @@ const breadcrumbJsonLd = {
 	</head>
 
 	<body>
+		<a class="skip-link" href="#main-content">본문 바로가기</a>
 		<Header />
-		<main>
+		<main id="main-content">
 			<article>
 				<div class="hero-image">
 					{heroImage && <Image width={1200} height={630} src={heroImage} alt={title} />}

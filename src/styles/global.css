@@ -12,6 +12,7 @@
 	--shadow:
 		0 10px 30px rgba(36, 31, 25, 0.06),
 		0 24px 60px rgba(36, 31, 25, 0.08);
+	--focus-ring: 0 0 0 2px rgb(var(--surface)), 0 0 0 4px var(--accent);
 }
 
 @font-face {
@@ -42,6 +43,23 @@ body {
 
 html {
 	scroll-behavior: smooth;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: rgba(28, 79, 65, 0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 body {
@@ -77,6 +95,8 @@ h6 {
 	color: rgb(var(--black));
 	line-height: 1.08;
 	letter-spacing: -0.03em;
+	text-wrap: balance;
+	scroll-margin-top: 5rem;
 }
 
 h1,
@@ -120,6 +140,17 @@ a {
 
 a:hover {
 	color: var(--accent-dark);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+	outline: none;
+	box-shadow: var(--focus-ring);
+	border-radius: 4px;
 }
 
 p {
@@ -286,4 +317,28 @@ hr {
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	white-space: nowrap;
+}
+
+/* Skip to main content link */
+.skip-link {
+	position: fixed;
+	top: -100%;
+	left: 1rem;
+	z-index: 9999;
+	padding: 0.75rem 1.25rem;
+	background: var(--accent);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	border-radius: 0 0 8px 8px;
+	transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+	top: 0;
+}
+
+/* Tabular numbers for numeric columns */
+.tabular-nums {
+	font-variant-numeric: tabular-nums;
 }

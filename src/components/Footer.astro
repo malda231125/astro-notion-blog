@@ -21,7 +21,7 @@ const today = new Date();
 <style>
 	footer {
 		padding: 3rem 1rem 4rem;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		background: linear-gradient(rgb(var(--surface-soft)), rgb(var(--gray-light))) no-repeat;
 		color: rgb(var(--gray));
 	}
 
@@ -54,6 +54,17 @@ const today = new Date();
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
+		transition: color 0.15s ease;
+	}
+
+	.links a:hover {
+		color: var(--accent);
+	}
+
+	.links a:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+		border-radius: 4px;
 	}
 
 	.copyright {

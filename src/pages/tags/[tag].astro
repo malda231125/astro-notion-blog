@@ -105,11 +105,26 @@ const structuredData = [
 		border: 1px solid rgb(var(--gray-light));
 		border-radius: 18px;
 		background: rgba(255, 255, 255, 0.92);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow);
+	}
+
+	.card:focus-within {
+		box-shadow: var(--focus-ring);
 	}
 
 	.card a {
 		text-decoration: none;
 		color: inherit;
+	}
+
+	.card a:focus-visible {
+		outline: none;
+		box-shadow: none;
 	}
 
 	.card h2 {

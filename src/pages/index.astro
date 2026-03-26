@@ -188,12 +188,34 @@ const structuredData = [
 	.hero-links .primary {
 		background: var(--accent);
 		color: #fff;
+		transition: background-color 0.15s ease, transform 0.15s ease;
+	}
+
+	.hero-links .primary:hover {
+		background: var(--accent-dark);
+	}
+
+	.hero-links .primary:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent);
 	}
 
 	.hero-links .secondary {
 		background: rgba(255, 255, 255, 0.76);
 		border: 1px solid rgba(var(--line), 0.8);
 		color: rgb(var(--gray-dark));
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.hero-links .secondary:hover {
+		background: rgba(255, 255, 255, 1);
+		border-color: rgba(var(--line), 1);
+		color: rgb(var(--black));
+	}
+
+	.hero-links .secondary:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
 	}
 
 	.hero-panel {
@@ -275,11 +297,28 @@ const structuredData = [
 		background: rgba(255, 255, 255, 0.72);
 		box-shadow: var(--shadow);
 		backdrop-filter: blur(14px);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 14px 36px rgba(36, 31, 25, 0.09),
+			0 28px 68px rgba(36, 31, 25, 0.11);
+	}
+
+	.card:focus-within {
+		box-shadow: var(--focus-ring);
 	}
 
 	.card a {
 		text-decoration: none;
 		color: inherit;
+	}
+
+	.card a:focus-visible {
+		outline: none;
+		box-shadow: none;
 	}
 
 	.card img {

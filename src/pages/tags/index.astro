@@ -84,6 +84,18 @@ const structuredData = {
 		background: rgba(255, 255, 255, 0.92);
 		text-decoration: none;
 		color: rgb(var(--gray-dark));
+		transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+	}
+
+	.tag-grid a:hover {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow);
+		border-color: rgba(var(--line), 1);
+	}
+
+	.tag-grid a:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
 	}
 
 	.tag-grid strong {

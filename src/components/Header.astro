@@ -93,6 +93,25 @@ import HeaderLink from './HeaderLink.astro';
 		color: rgb(var(--gray-dark));
 		font-weight: 600;
 		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.internal-links :global(a:hover),
+	.external-links a:hover {
+		color: var(--accent);
+	}
+
+	.internal-links :global(a:focus-visible),
+	.external-links a:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+		border-radius: 4px;
+	}
+
+	.brand:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+		border-radius: 8px;
 	}
 
 	.external-links a {
